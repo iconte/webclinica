@@ -6,7 +6,7 @@
 
         <div class="col-lg-12">
 
-            <h2 class="page-header">Novo Paciente</h2>
+            <h3 class="page-header">Novo Paciente</h3>
 
         </div>
 
@@ -76,7 +76,7 @@
         <div class="row">
             <div class="col-lg-2">
                 <div class="form-group">
-                    <label>CEP</label>
+                    <label>CEP <img id="loading" src="/gif/loading.gif" style="width: 25%;display: none"/> </label>
                     <input class="form-control" name="cep" id="cep" data-mask="00.000-000" maxlength="10">
                 </div>
             </div>
@@ -115,15 +115,18 @@
         <div class="footer">
             <div class="row">
                 <div class="col-lg-6">
-                    <button class="btn btn-primary">Salvar</button>
-                    <button class="btn btn-default">Cancelar</button>
+                    <button id="btnSalvarPaciente" class="btn btn-primary" >Salvar</button>
+                    <button id="btnCancelarPaciente" class="btn btn-default">Cancelar</button>
                 </div>
             </div>
         </div>
 
-        <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
-        <script type="text/javascript" src="/js/paciente.js"></script>
+
 
     </form>
+    <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="/js/paciente.js"></script>
 
 @endsection
+
+

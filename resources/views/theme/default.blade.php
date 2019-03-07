@@ -43,6 +43,9 @@
     <script src="{!! asset('theme/vendor/morrisjs/morris.min.js') !!}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{!! asset('theme/dist/js/sb-admin-2.js') !!}"></script>
+    @hasSection('javascript')
+    @yield('javascript')
+    @endif
 </head>
 
 <body>

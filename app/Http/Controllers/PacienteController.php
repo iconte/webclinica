@@ -34,6 +34,12 @@ class PacienteController extends Controller
 
     }
 
+    public function store(){
+
+        return 'Paciente@store';
+
+    }
+
 
 
     /**
@@ -50,7 +56,7 @@ class PacienteController extends Controller
 
     {
 
-        return view('/busca-paciente');
+        return view('/paciente/busca-paciente');
 
     }
 
@@ -61,6 +67,8 @@ class PacienteController extends Controller
         return view('/paciente/novo-paciente');
 
     }
+
+
 
 
 }

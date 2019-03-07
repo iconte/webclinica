@@ -15,13 +15,24 @@ class CreatePessoasTable extends Migration
     {
         Schema::create('pessoas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome');
-            $table->string('endereco');
-            $table->string('sexo');
-            $table->string('cpf');
-            $table->string('email');
+            $table->string('nome','100');
+            $table->char('sexo','1');
+            $table->string('endereco','100');
+            $table->string('tel_res','20');
+            $table->string('tel_cel','20');
+            $table->date('data_nasc');
+            $table->string('cpf','14');
+            $table->string('cep','8');
+            $table->string('email','50');
+            $table->string('numero','10');
+            $table->string('complemento','50');
+            $table->string('bairro','50');
+            $table->string('cidade','50');
+            $table->char('uf','2');
+
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
