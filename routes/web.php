@@ -20,16 +20,16 @@ Route::get('/', function () {
 
 Route::get('my-home', 'HomeController@myHome')->name('home');
 
-Route::get('novo-usuario', 'UsuarioController@novoUsuario')->name('novo-usuario');
+Route::get('novo-usuario', 'UsuarioController@viewNovoUsuario')->name('novo-usuario');
 
-Route::get('buscar-usuarios', 'UsuarioController@buscarUsuarios')->name('buscar-usuarios');
-
-
-Route::get('novo-paciente', 'PacienteController@novoPaciente')->name('novo-paciente');
-
-Route::get('buscar-pacientes', 'PacienteController@buscarPacientes')->name('buscar-pacientes');
+Route::get('buscar-usuarios', 'UsuarioController@viewBuscarUsuarios')->name('buscar-usuarios');
 
 
-Route::get('novo-medico', 'MedicoController@novoMedico')->name('novo-medico');
+Route::get('novo-paciente', 'PacienteController@viewNovoPaciente')->name('novo-paciente');
 
-Route::get('buscar-medicos', 'MedicoController@buscarMedicos')->name('buscar-medicos');
+Route::get('buscar-pacientes', 'PacienteController@viewBuscarPacientes')->name('buscar-pacientes');
+
+
+Route::get('novo-medico', 'MedicoController@viewNovoMedico')->name('novo-medico');
+
+Route::get('buscar-medicos', 'MedicoController@viewBuscarMedicos')->name('buscar-medicos');

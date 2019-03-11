@@ -1,16 +1,13 @@
 @extends('theme.default')
 
+@section('titulo')
+    <div class="row">
+        <h3>Paciente</h3>
+    </div>
+
+@endsection
 @section('content')
 
-    <div class="row">
-
-        <div class="col-lg-12">
-
-            <h3 class="page-header">Novo Paciente</h3>
-
-        </div>
-
-    </div>
     <form role="form">
         <div class="row">
             <div class="col-lg-8">
@@ -87,15 +84,19 @@
                 </div>
             </div>
             <div class="col-lg-1">
-                <label>Número</label>
-                <input class="form-control" name="numero" id="numero" maxlength="5" data-mask="00000">
+                <div class="form-group">
+                    <label>Número</label>
+                    <input class="form-control" name="numero" id="numero" maxlength="5" data-mask="00000">
+                </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-lg-2">
-                <label>Complemento</label>
-                <input class="form-control" name="complemento" id="complemento" maxlength="100">
+                <div class="form-group">
+                    <label>Complemento</label>
+                    <input class="form-control" name="complemento" id="complemento" maxlength="100">
+                </div>
             </div>
             <div class="col-lg-2">
                 <div class="form-group">
@@ -104,20 +105,25 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <label>Cidade</label>
-                <input class="form-control" name="cidade" id="cidade">
+                <div class="form-group">
+                    <label>Cidade</label>
+                    <input class="form-control" name="cidade" id="cidade">
+                 </div>
             </div>
             <div class="col-lg-1">
-                <label>UF</label>
-                <input class="form-control" name="uf" id="uf" maxlength="2">
+                <div class="form-group">
+                    <label>UF</label>
+                    <input class="form-control" name="uf" id="uf" maxlength="2">
+                </div>
             </div>
         </div>
-        <div class="footer">
-            <div class="row">
-                <div class="col-lg-6">
-                    <button id="btnSalvarPaciente" class="btn btn-primary" >Salvar</button>
-                    <button id="btnCancelarPaciente" class="btn btn-default">Cancelar</button>
-                </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <button id="btnSalvarPaciente" class="btn btn-primary col-xs-12 col-sm-3" style="margin-bottom:5px;" ><i class="fa fa-save"></i> Salvar</button>
+                    <a href="#" id="btnIrParaLista" class="btn-link  col-xs-12 col-sm-3 pull-right">Ir para Lista</a>
+                 </div>
             </div>
         </div>
 

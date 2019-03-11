@@ -41,6 +41,7 @@
     <!-- Morris Charts JavaScript -->
     <script src="{!! asset('theme/vendor/raphael/raphael.min.js') !!}"></script>
     <script src="{!! asset('theme/vendor/morrisjs/morris.min.js') !!}"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="{!! asset('theme/dist/js/sb-admin-2.js') !!}"></script>
     @hasSection('javascript')
@@ -70,6 +71,7 @@
 
     <div id="page-wrapper">
 
+        @yield('titulo')
         @yield('content')
 
     </div>

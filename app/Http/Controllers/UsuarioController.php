@@ -46,7 +46,7 @@ class UsuarioController extends Controller
 
      */
 
-    public function buscarUsuarios()
+    public function viewBuscarUsuarios()
 
     {
 
@@ -54,7 +54,7 @@ class UsuarioController extends Controller
 
     }
 
-    public function novoUsuario()
+    public function viewNovoUsuario()
 
     {
 

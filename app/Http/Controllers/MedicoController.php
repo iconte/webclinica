@@ -46,14 +46,14 @@ class MedicoController extends Controller
 
      */
 
-    public function buscarMedicos()
+    public function viewBuscarMedicos()
     {
 
         return view('/medico/busca-medico');
 
     }
 
-    public function novoMedico()
+    public function viewNovoMedico()
     {
 
         return view('/medico/novo-medico');

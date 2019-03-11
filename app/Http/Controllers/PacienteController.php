@@ -6,10 +6,12 @@ namespace App\Http\Controllers;
 
 
 
+use App\Http\Resources\ExameCollection;
+use App\Pessoa;
 use Illuminate\Http\Request;
 
 use App\Item;
-
+use Illuminate\Support\Facades\DB;
 
 
 class PacienteController extends Controller
@@ -41,6 +43,46 @@ class PacienteController extends Controller
     }
 
 
+    public function listar(){
+         return ExameCollection::collection(Pessoa::all());
+    }
+
+
+    public function listarComFiltro(Request $request){
+        $parametros = $request;
+//        if(isset($parametros)){
+            $nome = $parametros['nome'];
+            $cpf= $parametros['cpf'];
+            $dataNasc = $parametros['dataNascimento'];
+            $semParametro = !$nome && !$cpf && !$dataNasc;
+            if($semParametro){
+                $retorno  = Pessoa::all();
+            }else{
+                $retorno = DB::table('pessoas')
+                    ->when($nome, function ($query) use ($nome) {
+                        return $query->where('nome','like', '%'.$nome.'%');
+                    })
+                    ->when($cpf, function ($query) use ($cpf) {
+                        return $query->where('cpf', $cpf);
+                    })
+                    ->when($dataNasc, function ($query) use ($dataNasc) {
+                        return $query->where('data_nasc ', $dataNasc);
+                    })->get()    ;
+            }
+
+            return ExameCollection::collection($retorno);
+
+
+//        }
+
+           //TODO listar pessoas left join  funcionarios / medicos
+        //}
+
+
+
+    }
+
+
 
     /**
 
@@ -52,7 +94,7 @@ class PacienteController extends Controller
 
      */
 
-    public function buscarPacientes()
+    public function viewBuscarPacientes()
 
     {
 
@@ -60,7 +102,7 @@ class PacienteController extends Controller
 
     }
 
-    public function novoPaciente()
+    public function viewNovoPaciente()
 
     {
 

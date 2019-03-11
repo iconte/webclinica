@@ -18,6 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/paciente', 'PacienteController@store');
+Route::get('/paciente', 'PacienteController@listar');
+Route::get('/paciente/filtro', 'PacienteController@listarComFiltro');
+
+
 
 Route::get('/exame', 'ExameController@listar');
 Route::get('/exame/{id}', 'ExameController@obterPorId')->where('id', '[0-9]+');
