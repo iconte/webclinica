@@ -54,23 +54,23 @@ class PacienteController extends Controller
             $nome = $parametros['nome'];
             $cpf= $parametros['cpf'];
             $dataNasc = $parametros['dataNascimento'];
-            $semParametro = !$nome && !$cpf && !$dataNasc;
-            if($semParametro){
-                $retorno  = Pessoa::all();
-            }else{
-                $retorno = DB::table('pessoas')
-                    ->when($nome, function ($query) use ($nome) {
-                        return $query->where('nome','like', '%'.$nome.'%');
-                    })
-                    ->when($cpf, function ($query) use ($cpf) {
-                        return $query->where('cpf', $cpf);
-                    })
-                    ->when($dataNasc, function ($query) use ($dataNasc) {
-                        return $query->where('data_nasc ', $dataNasc);
-                    })->get()    ;
+       //     $semParametro = !$nome && !$cpf && !$dataNasc;
+            $query = DB::table('pessoas');
+
+
+            if($nome){
+                $query->where('nome', 'like', '%'.$nome.'%');
             }
 
-            return ExameCollection::collection($retorno);
+            if($cpf){
+                $query->where('cpf', '=' ,$cpf);
+             }
+            if($dataNasc){
+                $query->where('data_nasc', '=' ,$dataNasc);
+            }
+
+            $retorno = $query->paginate(10);
+            return response()->json($retorno);
 
 
 //        }
@@ -82,8 +82,25 @@ class PacienteController extends Controller
 
     }
 
-
-
+    function mask($val, $mask)
+    {
+        $maskared = '';
+        $k = 0;
+        for($i = 0; $i<=strlen($mask)-1; $i++)
+        {
+            if($mask[$i] == '#')
+            {
+                if(isset($val[$k]))
+                    $maskared .= $val[$k++];
+            }
+            else
+            {
+                if(isset($mask[$i]))
+                    $maskared .= $mask[$i];
+            }
+        }
+        return $maskared;
+    }
     /**
 
      * Show the my users page.

@@ -35,13 +35,17 @@ $("#btnBuscarPaciente").click(function (event) {
         },
         success: function (resultado) {
             console.log(resultado);
-            console.log(resultado.data);
-            if(resultado && resultado.data && resultado.data.length>0){
+            //console.log(resultado.data);
+
+           if(resultado && resultado.data && resultado.data.length>0){
+         //   if(resultado && resultado.length>0){
                 pacientes = resultado.data;
-                for(i=0;i<pacientes.length;i++) {
+                $('#resultado_busca').bootstrapTable({data: pacientes});
+
+            /*    for(i=0;i<pacientes.length;i++) {
                     linha = montarLinha(pacientes[i]);
                     $('#resultado_busca>tbody').append(linha);
-                }
+                }*/
                 exibirResultadoPesquisa();
             }else{
                 exibirMsgSemResultado();
@@ -53,6 +57,8 @@ $("#btnBuscarPaciente").click(function (event) {
             console.log(error.message);
         }
     });
+
+
 
 
 });

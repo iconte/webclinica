@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pessoa extends Model
 {
+    protected $dateFormat = 'd/m/Y';
 
-
-
-
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'data_nasc',
+    ];
 }
