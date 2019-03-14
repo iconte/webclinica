@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 use App\Item;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 
 class PacienteController extends Controller
@@ -32,13 +33,28 @@ class PacienteController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            'nome' => 'required',
+            'cpf' => 'required',
+            'dataNasc' => 'required|date_format:d/m/Y',
+            'tel_cel' => 'required',
+            'email' => 'required|email',
+            'endereco' => 'required',
+            'numero' => 'required',
+            'bairro' => 'required',
+            'cidade' => 'required',
+       ]);
+       if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }
 
         $pessoa = new Pessoa();
         $pessoa->nome = $request->input('nome');
         $pessoa->cpf = $request->input('cpf');
         $pessoa->data_nasc = $request->input('dataNasc');
         $pessoa->sexo = $request->input('sexo');
-        $pessoa->sexo = $request->input('tel_res');
+        $pessoa->tel_res = $request->input('tel_res');
         $pessoa->tel_cel = $request->input('tel_cel');
         $pessoa->email = $request->input('email');
         $pessoa->cep = $request->input('cep');

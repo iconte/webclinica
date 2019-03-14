@@ -10,8 +10,10 @@
 
 @endsection
 @section('content')
-
-    <form role="form">
+    <div class="alert alert-danger erro-msg" style="display:none">
+        <ul></ul>
+    </div>
+    <form role="form" id="frmNovoPaciente">
         <div class="row">
             <div class="col-lg-8">
                 <div class="form-group">
@@ -25,7 +27,7 @@
 
             <div class="col-lg-2">
                 <div class="form-group">
-                    <label>CPF </label>
+                    <label>CPF <span style="color:red">*</span></label>
                     <input id="cpf" name="cpf" class="form-control" data-mask="000.000.000-00" maxlength="11">
                 </div>
             </div>
@@ -103,7 +105,7 @@
             </div>
             <div class="col-lg-2">
                 <div class="form-group">
-                    <label>Bairro</label>
+                    <label>Bairro <span style="color:red">*</span></label>
                     <input class="form-control" name="bairro" id="bairro">
                 </div>
             </div>
@@ -115,7 +117,7 @@
             </div>
             <div class="col-lg-1">
                 <div class="form-group">
-                    <label>UF <span style="color:red">*</span></label>
+                    <label>UF </label>
                     <input class="form-control" name="uf" id="uf" maxlength="2">
                 </div>
             </div>
@@ -124,7 +126,10 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <button id="btnSalvarPaciente" class="btn btn-primary col-xs-12 col-sm-3" style="margin-bottom:5px;" ><i class="fa fa-save"></i> Salvar</button>
+                    <button id="btnSalvarPaciente" class="btn btn-primary col-xs-12 col-sm-3" style="margin-bottom:5px;" >
+                        <span id="salvar"><i class="fa fa-save"></i> Salvar</span>
+                        <span id="salvando" style="display: none;">Salvando...</span>
+                    </button>
                     <a href="#" id="btnIrParaLista" class="btn-link  col-xs-12 col-sm-3 pull-right">Ir para Lista</a>
                  </div>
             </div>

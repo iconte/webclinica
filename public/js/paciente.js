@@ -4,8 +4,55 @@ $.ajaxSetup({
     }
 });
 
+function msgErro (msg) {
+    $(".erro-msg").find("ul").html('');
+    $(".erro-msg").css('display','block');
+    $.each( msg, function( key, value ) {
+        $(".erro-msg").find("ul").append('<li>'+value+'</li>');
+    });
+}
+
+
 $("#btnSalvarPaciente").click(function (event) {
     event.preventDefault();
+    var dados_paciente = {
+        'nome':$("#nome").val(),
+        'cpf' :$("#cpf").cleanVal(),
+        'dataNasc':$("#dataNasc").val(),
+        'tel_cel' :$("#tel_cel").val(),
+        'email' :$("#email").val(),
+        'endereco':$("#endereco").val(),
+        'numero' :$("#numero").val(),
+        'bairro' :$("#bairro").val(),
+        'cidade':$("#cidade").val()
+    };
+    $.ajax({
+        type: "POST",
+        url: "/api/paciente",
+        data: dados_paciente,
+        context: this,
+        beforeSend: function () {
+            $("#salvar").hide();
+            $("#salvando").show();
+        },
+        complete: function () {
+            $("#salvando").hide();
+            $("#salvar").show();
+        },
+        success: function (data) {
+           if(data.errors){
+               msgErro(data.errors);
+           } else{
+               $('#frmNovoPaciente')[0].reset();
+               toastr.info('Registro salvo com sucesso.');
+           }
+
+        },
+        error: function (error) {
+           console.log(error);
+        }
+    });
+
 
 });
 
