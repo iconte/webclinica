@@ -1,12 +1,11 @@
 <?php
 
 
-
 namespace App\Http\Controllers;
 
 
-
 use App\Http\Resources\ExameCollection;
+use App\Http\Resources\ExameResource;
 use App\Pessoa;
 use Illuminate\Http\Request;
 
@@ -19,13 +18,9 @@ class PacienteController extends Controller
 {
 
     /**
-
      * Create a new controller instance.
-
      *
-
      * @return void
-
      */
 
     public function __construct()
@@ -33,84 +28,72 @@ class PacienteController extends Controller
     {
 
 
-
     }
 
-    public function store(){
-
-        return 'Paciente@store';
-
-    }
-
-
-    public function listar(){
-         return ExameCollection::collection(Pessoa::all());
-    }
-
-
-    public function listarComFiltro(Request $request){
-        $parametros = $request;
-//        if(isset($parametros)){
-            $nome = $parametros['nome'];
-            $cpf= $parametros['cpf'];
-            $dataNasc = $parametros['dataNascimento'];
-       //     $semParametro = !$nome && !$cpf && !$dataNasc;
-            $query = DB::table('pessoas');
-
-
-            if($nome){
-                $query->where('nome', 'like', '%'.$nome.'%');
-            }
-
-            if($cpf){
-                $query->where('cpf', '=' ,$cpf);
-             }
-            if($dataNasc){
-                $query->where('data_nasc', '=' ,$dataNasc);
-            }
-
-            $retorno = $query->paginate(10);
-            return response()->json($retorno);
-
-
-//        }
-
-           //TODO listar pessoas left join  funcionarios / medicos
-        //}
-
-
-
-    }
-
-    function mask($val, $mask)
+    public function store(Request $request)
     {
-        $maskared = '';
-        $k = 0;
-        for($i = 0; $i<=strlen($mask)-1; $i++)
-        {
-            if($mask[$i] == '#')
-            {
-                if(isset($val[$k]))
-                    $maskared .= $val[$k++];
-            }
-            else
-            {
-                if(isset($mask[$i]))
-                    $maskared .= $mask[$i];
-            }
-        }
-        return $maskared;
+
+        $pessoa = new Pessoa();
+        $pessoa->nome = $request->input('nome');
+        $pessoa->cpf = $request->input('cpf');
+        $pessoa->data_nasc = $request->input('dataNasc');
+        $pessoa->sexo = $request->input('sexo');
+        $pessoa->sexo = $request->input('tel_res');
+        $pessoa->tel_cel = $request->input('tel_cel');
+        $pessoa->email = $request->input('email');
+        $pessoa->cep = $request->input('cep');
+        $pessoa->endereco = $request->input('endereco');
+        $pessoa->numero = $request->input('numero');
+        $pessoa->complemento = $request->input('complemento');
+        $pessoa->bairro = $request->input('bairro');
+        $pessoa->cidade = $request->input('cidade');
+        $pessoa->uf = $request->input('uf');
+
+
     }
+
+
+    public function listar()
+    {
+        return ExameCollection::collection(Pessoa::all());
+    }
+
+    public function listarPorCpf($cpf)
+    {
+        $retorno = $users = Pessoa::all(['id', 'cpf'])
+            ->where('cpf', $cpf)->first();
+        return response()->json(['data' => $retorno]);
+    }
+
+
+    public function listarComFiltro(Request $request)
+    {
+        $parametros = $request;
+        $nome = $parametros['nome'];
+        $cpf = $parametros['cpf'];
+        $dataNasc = $parametros['dataNascimento'];
+
+        $query = DB::table('pessoas');
+        if ($nome) {
+            $query->whereRaw('upper(nome) like ?', ['%' . strtoupper($nome) . '%']);
+        }
+
+        if ($cpf) {
+            $query->where('cpf', '=', $cpf);
+        }
+        if ($dataNasc) {
+            $query->where('data_nasc', '=', $dataNasc);
+        }
+
+        $retorno = $query->paginate(10);
+        return response()->json($retorno);
+    }
+
+    //==========================================================================
+    //==========================================================================
     /**
-
-     * Show the my users page.
-
-     *
-
-     * @return \Illuminate\Http\Response
-
+     *  VIEWS
      */
-
     public function viewBuscarPacientes()
 
     {
@@ -126,8 +109,6 @@ class PacienteController extends Controller
         return view('/paciente/novo-paciente');
 
     }
-
-
 
 
 }

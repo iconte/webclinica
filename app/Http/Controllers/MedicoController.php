@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 
 
+use App\Http\Resources\ExameCollection;
+use App\Medico;
 use Illuminate\Http\Request;
 
 use App\Item;
@@ -33,6 +35,8 @@ class MedicoController extends Controller
 
 
     }
+
+
 
 
 

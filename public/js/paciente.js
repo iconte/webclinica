@@ -10,13 +10,12 @@ $("#btnSalvarPaciente").click(function (event) {
 });
 
 
-
 $("#btnBuscarPaciente").click(function (event) {
     event.preventDefault();
 
    var  busca_pessoa = {
         nome: $("#busca_nome").val(),
-        cpf: $("#busca_cpf").val(),
+        cpf: $("#busca_cpf").cleanVal(),
         dataNascimento: $("#busca_dn").val()
 
     };
@@ -34,13 +33,17 @@ $("#btnBuscarPaciente").click(function (event) {
             $("#buscar").show();
         },
         success: function (resultado) {
-            console.log(resultado);
-            //console.log(resultado.data);
-
-           if(resultado && resultado.data && resultado.data.length>0){
+           console.log(resultado.data);
+            var $table = $('#resultado_busca');
+          if(resultado && resultado.data && resultado.data.length>0){
          //   if(resultado && resultado.length>0){
-                pacientes = resultado.data;
-                $('#resultado_busca').bootstrapTable({data: pacientes});
+               var pacientes = resultado.data;
+
+                $table.bootstrapTable('destroy');
+                $table.bootstrapTable({data:pacientes});
+
+
+
 
             /*    for(i=0;i<pacientes.length;i++) {
                     linha = montarLinha(pacientes[i]);
@@ -48,7 +51,8 @@ $("#btnBuscarPaciente").click(function (event) {
                 }*/
                 exibirResultadoPesquisa();
             }else{
-                exibirMsgSemResultado();
+               $table.bootstrapTable('destroy');
+               exibirMsgSemResultado();
             }
 
 
