@@ -4,27 +4,36 @@ $.ajaxSetup({
     }
 });
 
-function msgErro (msg) {
+function msgErro(msg) {
     $(".erro-msg").find("ul").html('');
-    $(".erro-msg").css('display','block');
-    $.each( msg, function( key, value ) {
-        $(".erro-msg").find("ul").append('<li>'+value+'</li>');
+    $(".erro-msg").css('display', 'block');
+    $.each(msg, function (key, value) {
+        $(".erro-msg").find("ul").append('<li>' + value + '</li>');
     });
 }
+
+
+$('.campoBusca').keypress(function (e) {
+    if (e.which == 13) {
+        $('#btnBuscarPaciente').click();
+        return false;
+    }
+});
 
 
 $("#btnSalvarPaciente").click(function (event) {
     event.preventDefault();
     var dados_paciente = {
-        'nome':$("#nome").val(),
-        'cpf' :$("#cpf").cleanVal(),
-        'dataNasc':$("#dataNasc").val(),
-        'tel_cel' :$("#tel_cel").val(),
-        'email' :$("#email").val(),
-        'endereco':$("#endereco").val(),
-        'numero' :$("#numero").val(),
-        'bairro' :$("#bairro").val(),
-        'cidade':$("#cidade").val()
+        'nome': $("#nome").val(),
+        'cpf': $("#cpf").cleanVal(),
+        'dataNasc': $("#dataNasc").val(),
+        'tel_cel': $("#tel_cel").val(),
+        'email': $("#email").val(),
+        'endereco': $("#endereco").val(),
+        'numero': $("#numero").val(),
+        'bairro': $("#bairro").val(),
+        'cidade': $("#cidade").val(),
+        'sexo': $(".rdSexo").checked()
     };
     $.ajax({
         type: "POST",
@@ -40,27 +49,25 @@ $("#btnSalvarPaciente").click(function (event) {
             $("#salvar").show();
         },
         success: function (data) {
-           if(data.errors){
-               msgErro(data.errors);
-           } else{
-               $('#frmNovoPaciente')[0].reset();
-               toastr.info('Registro salvo com sucesso.');
-           }
+            if (data.errors) {
+                msgErro(data.errors);
 
+            } else {
+                $('#frmNovoPaciente')[0].reset();
+                toastr.info('Registro salvo com sucesso.');
+            }
         },
         error: function (error) {
-           console.log(error);
+            console.log(error);
         }
     });
-
-
 });
 
 
 $("#btnBuscarPaciente").click(function (event) {
     event.preventDefault();
 
-   var  busca_pessoa = {
+    var busca_pessoa = {
         nome: $("#busca_nome").val(),
         cpf: $("#busca_cpf").cleanVal(),
         dataNascimento: $("#busca_dn").val()
@@ -80,26 +87,16 @@ $("#btnBuscarPaciente").click(function (event) {
             $("#buscar").show();
         },
         success: function (resultado) {
-           console.log(resultado.data);
+            console.log(resultado.data);
             var $table = $('#resultado_busca');
-          if(resultado && resultado.data && resultado.data.length>0){
-         //   if(resultado && resultado.length>0){
-               var pacientes = resultado.data;
-
+            if (resultado && resultado.data && resultado.data.length > 0) {
+                var pacientes = resultado.data;
                 $table.bootstrapTable('destroy');
-                $table.bootstrapTable({data:pacientes});
-
-
-
-
-            /*    for(i=0;i<pacientes.length;i++) {
-                    linha = montarLinha(pacientes[i]);
-                    $('#resultado_busca>tbody').append(linha);
-                }*/
+                $table.bootstrapTable({data: pacientes});
                 exibirResultadoPesquisa();
-            }else{
-               $table.bootstrapTable('destroy');
-               exibirMsgSemResultado();
+            } else {
+                $table.bootstrapTable('destroy');
+                exibirMsgSemResultado();
             }
 
 
@@ -108,19 +105,14 @@ $("#btnBuscarPaciente").click(function (event) {
             console.log(error.message);
         }
     });
-
-
-
-
 });
 
 
-
-function exibirResultadoPesquisa(){
+function exibirResultadoPesquisa() {
     $('#sem_resultado').hide();
     $('#lista').show();
 }
-function exibirMsgSemResultado(){
+function exibirMsgSemResultado() {
     $('#lista').hide();
     $('#sem_resultado').show();
 }
@@ -128,24 +120,7 @@ function exibirMsgSemResultado(){
 $(function () {
     $("#loading").hide();
     $("#cep").blur(tratarCep);
-
-
 });
-
-
-function montarLinha(p) {
-    var linha = "<tr>" +
-        "<td>" + (p.cpf ? p.cpf : "") + "</td>" +
-        "<td>" + (p.nome ? p.nome : "") + "</td>" +
-        "<td>" + (p.email ? p.email : "") + "</td>" +
-        "<td>" + (p.data_nasc ? p.data_nasc : "") + "</td>" +
-        "<td>" +
-        '<button class="btn btn-sm btn-primary fa fa-pencil" onclick="editar(' + p.id + ')"> Editar </button> ' +
-        '<button class="btn btn-sm btn-danger fa fa-trash" onclick="remover(' + p.id + ')"> Apagar </button> ' +
-        "</td>" +
-        "</tr>";
-    return linha;
-}
 
 function tratarCep() {
     var cep = $("#cep").cleanVal();

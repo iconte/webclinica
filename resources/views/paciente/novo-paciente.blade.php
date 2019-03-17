@@ -28,13 +28,13 @@
             <div class="col-lg-2">
                 <div class="form-group">
                     <label>CPF <span style="color:red">*</span></label>
-                    <input id="cpf" name="cpf" class="form-control" data-mask="000.000.000-00" maxlength="11">
+                    <input id="cpf" name="cpf" class="form-control cpf"  maxlength="11">
                 </div>
             </div>
             <div class="col-lg-2">
                 <div class="form-group">
                     <label>Data de nascimento <span style="color:red">*</span></label>
-                    <input id="data_nasc" name="data_nasc" class="form-control" maxlength="10" data-mask="00/00/0000">
+                    <input id="data_nasc" name="data_nasc" class="form-control date" maxlength="10" >
                 </div>
             </div>
             <div class="col-lg-3">
@@ -57,13 +57,13 @@
             <div class="col-lg-2">
                 <div class="form-group">
                     <label>Tel. Residencial</label>
-                    <input id="telres" name="telres" class="form-control" data-mask="(00) 0000-0000" maxlength="11">
+                    <input id="telres" name="telres" class="form-control phone_with_ddd"  maxlength="11">
                 </div>
             </div>
             <div class="col-lg-2">
                 <div class="form-group">
                     <label>Tel. Celular <span style="color:red">*</span></label>
-                    <input id="telcel" name="telcel" class="form-control" data-mask="(00) 0000-0000" maxlength="11">
+                    <input id="telcel" name="telcel" class="form-control phone_with_ddd"  maxlength="11">
                 </div>
             </div>
 
@@ -79,7 +79,7 @@
             <div class="col-lg-2">
                 <div class="form-group">
                     <label>CEP <img id="loading" src="/gif/loading.gif" style="width: 25%;display: none"/> </label>
-                    <input class="form-control" name="cep" id="cep" data-mask="00.000-000" maxlength="10">
+                    <input class="form-control cep" name="cep" id="cep"  maxlength="10">
                 </div>
             </div>
             <div class="col-lg-5">
@@ -91,7 +91,7 @@
             <div class="col-lg-1">
                 <div class="form-group">
                     <label>Numero<span style="color:red">*</span></label>
-                    <input class="form-control" name="numero" id="numero" maxlength="5" data-mask="00000">
+                    <input class="form-control numero" name="numero" id="numero" maxlength="5" >
                 </div>
             </div>
         </div>

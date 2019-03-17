@@ -23,7 +23,7 @@
                         <label for="busca_cpf"  class="control-label col-sm-2">CPF</label>
 
                         <div class="col-xs-12 col-sm-3">
-                            <input type="text" class="form-control col-xs-12 "data-mask="000.000.000-00"  id="busca_cpf" />
+                            <input type="text" class="form-control col-xs-12 campoBusca" data-mask="000.000.000-00"  id="busca_cpf" />
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                         <label for="busca_dn" class="control-label col-sm-2">Data de nascimento</label>
 
                         <div class="col-xs-12 col-sm-4">
-                            <input type="text" class="form-control col-xs-12 " data-mask="00/00/0000" id="busca_dn"/>
+                            <input type="text" class="form-control col-xs-12 campoBusca" data-mask="00/00/0000" id="busca_dn"/>
                         </div>
                     </div>
                  </div>
@@ -43,7 +43,7 @@
                         <label for="busca_nome" class="control-label col-sm-2">Nome</label>
 
                         <div class="col-xs-12 col-sm-8">
-                            <input type="text" class="form-control col-xs-12 " id="busca_nome" maxlength="200"/>
+                            <input type="text" class="form-control col-xs-12 campoBusca" id="busca_nome" maxlength="200"/>
                         </div>
                     </div>
                 </div>
@@ -122,13 +122,13 @@
             <div class="col-lg-2">
                 <div class="form-group">
                     <label>CPF</label>
-                    <input id="editar_cpf" name="editar_cpf" class="form-control" data-mask="000.000.000-00" maxlength="11">
+                    <input id="editar_cpf" name="editar_cpf" class="form-control cpf"  maxlength="11">
                 </div>
             </div>
             <div class="col-lg-2">
                 <div class="form-group">
                     <label>Data de Nascimento</label>
-                    <input id="editar_data_nasc" name="editar_data_nasc" class="form-control" maxlength="10" data-mask="00/00/0000">
+                    <input id="editar_data_nasc" name="editar_data_nasc" class="form-control date" maxlength="10" >
                 </div>
             </div>
             <div class="col-lg-3">
@@ -137,11 +137,11 @@
 
                     <div class="radio">
                         <label class="radio-inline">
-                            <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="M"
+                            <input type="radio" name="editar_rdsexo" id="optionsRadiosInline1" value="M"
                                    checked="checked">Masculino
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="F">Feminino
+                            <input type="radio" name="editar_rdsexo" id="optionsRadiosInline2" value="F">Feminino
                         </label>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
             <div class="col-lg-2">
                 <div class="form-group">
                     <label>CEP <img id="loading" src="/gif/loading.gif" style="width: 25%;display: none"/> </label>
-                    <input class="form-control" name="editar_cep" id="editar_cep" data-mask="00.000-000" maxlength="10">
+                    <input class="form-control cep" name="editar_cep" id="editar_cep"  maxlength="10">
                 </div>
             </div>
             <div class="col-lg-5">
@@ -185,7 +185,7 @@
             <div class="col-lg-1">
                 <div class="form-group">
                     <label>Número</label>
-                    <input class="form-control" name="editar_numero" id="editar_numero" maxlength="5" data-mask="00000">
+                    <input class="form-control numero" name="editar_numero" id="editar_numero" maxlength="5" >
                 </div>
             </div>
         </div>
@@ -221,7 +221,7 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <button id="btnAtualizarPaciente" class="btn btn-primary col-xs-12 col-sm-3" style="margin-bottom:5px;" ><i class="fa fa-save"></i> Salvar</button>
-                    <a href="#" id="btnVoltarParaLista" class="btn-link  col-xs-12 col-sm-3 pull-right">Ir para Lista</a>
+                    <a href="#" id="btnVoltarParaLista" class="btn-link  col-xs-12 col-sm-3 pull-right" onclick="voltarParaLista()">Ir para Lista</a>
                 </div>
             </div>
         </div>
@@ -257,11 +257,41 @@
             }
             window.commonEvents = {
                 'click .update': function (e, value, row) {
-                    console.log(row);
+                    exibirEditar();
+                    preencherDadosEditar(row);
                 },
                 'click .remove': function (e, value, row) {
                     console.log(row);
                 }
+            }
+
+            function preencherDadosEditar(dados){
+                $("#editar_nome").val(dados.nome);
+                $("#editar_cpf").val(dados.cpf).mask('000.000.000-00');
+                $("#editar_cpf" ).trigger({type: 'keypress', which: 32, keyCode: 32});
+                $("#editar_dataNasc").val(dados.data_nasc);
+                $("#editar_tel_res").val(dados.tel_res);
+                $("#editar_tel_cel").val(dados.tel_cel);
+                $("#editar_email").val(dados.email);
+                $("#editar_endereco").val(dados.endereco);
+                $("#editar_numero").val(dados.numero);
+                $("#editar_bairro").val(dados.bairro);
+                $("#editar_cidade").val(dados.cidade);
+                $("#editar_uf").val(dados.uf);
+                $("#editar_rdsexo").val(dados.uf);
+                if(dados.sexo){
+                    $("input[name=editar_rdsexo][value=" + dados.sexo + "]").attr('checked', 'checked');
+                }
+
+
+            }
+            function voltarParaLista(){
+                $('.busca').fadeIn();
+                $('.edicao').fadeOut();
+            }
+            function exibirEditar(){
+                $('.busca').hide();
+                $('.edicao').show();
             }
         </script>
 
