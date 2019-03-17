@@ -49,18 +49,13 @@
     <script src="{!! asset('theme/dist/js/sb-admin-2.js') !!}"></script>
 
 
+
     <script src="{!! asset('js/bootstrap-table/bootstrap-table.min.js') !!}"></script>
     <script src="{!! asset('js/bootstrap-table/bootstrap-table-mobile.min.js') !!}"></script>
     <script src="{!! asset('js/bootstrap-table/bootstrap-table-locale-all.min.js') !!}"></script>
     <script src="{!! asset('js/bootstrap-table/locale/bootstrap-table-pt-BR.min.js') !!}"></script>
     <script src="{!! asset('js/toastr.min.js') !!}"></script>
-    <script type="text/javascript">
-        $('.date').mask('00/00/0000');
-        $('.cpf').mask('000.000.000-00', {reverse: true});
-        $('.phone_with_ddd').mask('(00) 0000-0000');
-        $('.cep').mask('00000-000');
-        $('.numero').mask('00000');
-    </script>
+    <script src={!! asset('/js/jquery.mask.min.js')!!}></script>
     @hasSection('javascript')
     @yield('javascript')
     @endif

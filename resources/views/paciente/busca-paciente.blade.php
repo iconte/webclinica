@@ -23,7 +23,7 @@
                         <label for="busca_cpf"  class="control-label col-sm-2">CPF</label>
 
                         <div class="col-xs-12 col-sm-3">
-                            <input type="text" class="form-control col-xs-12 campoBusca" data-mask="000.000.000-00"  id="busca_cpf" />
+                            <input type="text" class="form-control col-xs-12 campoBusca cpf"   id="busca_cpf" />
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                         <label for="busca_dn" class="control-label col-sm-2">Data de nascimento</label>
 
                         <div class="col-xs-12 col-sm-4">
-                            <input type="text" class="form-control col-xs-12 campoBusca" data-mask="00/00/0000" id="busca_dn"/>
+                            <input type="text" class="form-control col-xs-12 campoBusca date" data-mask="00/00/0000" id="busca_dn"/>
                         </div>
                     </div>
                  </div>
@@ -231,13 +231,13 @@
 
     </div>
 
-
-        <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
         <script type="text/javascript" src="/js/paciente.js"></script>
         <script>
+
             function cpfFormatter(value){
                 if(value){
-                    return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g,"\$1.\$2.\$3\-\$4");
+                    return $('.cpf').masked(value);
+                    //return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g,"\$1.\$2.\$3\-\$4");
                 }else{
                     return;
                 }
@@ -250,7 +250,8 @@
             }
             function dateFormatter(value){
                 if(value){
-                    return new Date(value).toString('dd/MM/yyyy');
+                    return $('.date').masked(value);
+                    //return new Date(value).toString('dd/MM/yyyy');
                 }else{
                     return;
                 }
@@ -293,6 +294,8 @@
                 $('.busca').hide();
                 $('.edicao').show();
             }
+
+
         </script>
 
 @endsection

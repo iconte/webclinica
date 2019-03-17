@@ -43,11 +43,11 @@
 
                     <div class="radio">
                         <label class="radio-inline">
-                            <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="M"
+                            <input type="radio" name="rd_sexo" id="optionsRadiosInline1" value="M"
                                    checked="checked">Masculino
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="F">Feminino
+                            <input type="radio" name="rd_sexo" id="optionsRadiosInline2" value="F">Feminino
                         </label>
                     </div>
                 </div>
@@ -138,7 +138,6 @@
 
 
     </form>
-    <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
     <script type="text/javascript" src="/js/paciente.js"></script>
 
 @endsection

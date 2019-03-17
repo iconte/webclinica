@@ -25,7 +25,7 @@ $("#btnSalvarPaciente").click(function (event) {
     event.preventDefault();
     var dados_paciente = {
         'nome': $("#nome").val(),
-        'cpf': $("#cpf").cleanVal(),
+        'cpf': $(".cpf").cleanVal(),
         'dataNasc': $("#dataNasc").val(),
         'tel_cel': $("#tel_cel").val(),
         'email': $("#email").val(),
@@ -69,7 +69,7 @@ $("#btnBuscarPaciente").click(function (event) {
 
     var busca_pessoa = {
         nome: $("#busca_nome").val(),
-        cpf: $("#busca_cpf").cleanVal(),
+        cpf: $(".cpf").cleanVal(),
         dataNascimento: $("#busca_dn").val()
 
     };
@@ -120,6 +120,11 @@ function exibirMsgSemResultado() {
 $(function () {
     $("#loading").hide();
     $("#cep").blur(tratarCep);
+    $(".date").mask("00/00/0000");
+    $(".cpf").mask("000.000.000-00", {reverse: true});
+    $(".phone_with_ddd").mask("(00) 0000-0000");
+    $(".cep").mask("00000-000");
+    $(".numero").mask("00000");
 });
 
 function tratarCep() {
