@@ -32,24 +32,7 @@ class PacienteController extends Controller
 
     }
 
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'nome' => 'required',
-            'cpf' => 'required|unique:pessoas',
-            'dataNasc' => 'required|date_format:d/m/Y|before:today',
-            'tel_cel' => 'required',
-            'email' => 'required|email',
-            'endereco' => 'required',
-            'numero' => 'required',
-            'bairro' => 'required',
-            'cidade' => 'required',
-       ]);
-       if ($validator->fails())
-        {
-            return response()->json(['errors'=>$validator->errors()->all()]);
-        }
-
+    private function preencherDadosPessoa(Request $request){
         $pessoa = new Pessoa();
         $pessoa->nome = $request->input('nome');
         $pessoa->cpf = $request->input('cpf');
@@ -67,8 +50,56 @@ class PacienteController extends Controller
         $pessoa->bairro = $request->input('bairro');
         $pessoa->cidade = $request->input('cidade');
         $pessoa->uf = $request->input('uf');
+        return $pessoa;
+    }
+
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'nome' => 'required',
+            'cpf' => 'required|unique:pessoas',
+            'dataNasc' => 'required|date_format:d/m/Y|before:today',
+            'tel_cel' => 'required',
+            'email' => 'required|email',
+            'endereco' => 'required',
+            'numero' => 'required',
+            'bairro' => 'required',
+            'cidade' => 'required'
+       ]);
+       if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }
+
+        $pessoa = $this->preencherDadosPessoa($request);
         $pessoa->save();
         return response()->json(['data' => ['message'=>'Registro salvo com sucesso.']],200);
+    }
+
+    public function update(Request $request, $id){
+        $validator = Validator::make($request->all(),[
+            'nome' => 'required',
+            'cpf' => 'required',
+            'dataNasc' => 'required|date_format:d/m/Y|before:today',
+            'tel_cel' => 'required',
+            'email' => 'required|email',
+            'endereco' => 'required',
+            'numero' => 'required',
+            'bairro' => 'required',
+            'cidade' => 'required',
+            'id' => 'required'
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }
+
+        $pessoa = $this->preencherDadosPessoa($request);
+        $pessoa->id = $id;
+        $pessoa->save();
+
+        return response()->json(['data' => ['message'=>'Registro atualizado com sucesso.']],200);
     }
 
 

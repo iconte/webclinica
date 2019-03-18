@@ -76,6 +76,57 @@ $("#btnSalvarPaciente").click(function (event) {
     });
 });
 
+$("#btnAtualizarPaciente").click(function (event) {
+    event.preventDefault();
+    var dados_paciente = {
+        'nome': $("#editar_nome").val(),
+        'cpf': $(".cpf").cleanVal(),
+        'cep': $(".cep").cleanVal(),
+        'dataNasc': $("#editar_data_nasc").val(),
+        'tel_cel': $("#editar_tel_cel").val(),
+        'tel_res': $("#editar_tel_res").val(),
+        'email': $("#editar_email").val(),
+        'endereco': $("#editar_end").val(),
+        'numero': $("#editar_numero").val(),
+        'bairro': $("#editar_bairro").val(),
+        'cidade': $("#editar_cidade").val(),
+        'uf': $("#editar_uf").val(),
+        'sexo': $("input[name='editar_rd_sexo']:checked"). val()
+    };
+    $.ajax({
+        type: "PUT",
+        url: "/api/paciente",
+        data: dados_paciente,
+        context: this,
+        beforeSend: function () {
+            $("#salvar").hide();
+            $("#salvando").show();
+        },
+        complete: function () {
+            $("#salvando").hide();
+            $("#salvar").show();
+        },
+        success: function (data) {
+
+            if(data){
+                if(data.errors){
+                    msgValidacao(data.errors);
+                    return;
+                }
+                $('#frmNovoPaciente')[0].reset();
+                toastr.info('Registro atualizado com sucesso.');
+            }
+        },
+        error: function (error) {
+            var text = JSON.parse(error.responseText);
+            $("#salvando").hide();
+            $("#salvar").show();
+            msgErro(text.message);
+        }
+    });
+});
+
+
 
 $("#btnBuscarPaciente").click(function (event) {
     event.preventDefault();

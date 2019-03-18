@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/paciente', 'PacienteController@store');
+Route::put('/paciente', 'PacienteController@update');
 Route::get('/paciente', 'PacienteController@listar');
 Route::get('/paciente/filtro', 'PacienteController@listarComFiltro');
 Route::get('/paciente/por-cpf/{cpf}', 'PacienteController@listarPorCpf');

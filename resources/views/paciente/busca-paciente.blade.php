@@ -77,7 +77,8 @@
                 <table id="resultado_busca"
                        class="table table-striped table-bordered table-hover "
                        data-pagination="true"
-                       data-mobile-responsive="true">
+                       data-mobile-responsive="true"
+                       data-page-list="[10, 25, 50, 100, 200, All]">
 
                     <thead>
 
@@ -108,6 +109,7 @@
 
     <div class="edicao" style="display: none;">
         <form id="frmEditarPaciente">
+            <input type="hidden" id="editar_id_paciente">
             <div class="row">
                 <div class="col-lg-8">
                     <div class="form-group">
@@ -264,7 +266,9 @@
                 }
             }
 
+            //buscar do banco
             function preencherDadosEditar(dados){
+                $("#editar_id_paciente").val(dados.id);
                 $("#editar_nome").val(dados.nome);
                 if(dados.cpf){
                     $("#editar_cpf").val(dados.cpf).mask('000.000.000-00');
