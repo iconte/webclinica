@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ExameCollection;
 use App\Http\Resources\ExameResource;
 use App\Pessoa;
+use DateTime;
 use Illuminate\Http\Request;
 
 use App\Item;
@@ -35,8 +36,8 @@ class PacienteController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'nome' => 'required',
-            'cpf' => 'required',
-            'dataNasc' => 'required|date_format:d/m/Y',
+            'cpf' => 'required|unique:pessoas',
+            'dataNasc' => 'required|date_format:d/m/Y|before:today',
             'tel_cel' => 'required',
             'email' => 'required|email',
             'endereco' => 'required',
@@ -52,7 +53,9 @@ class PacienteController extends Controller
         $pessoa = new Pessoa();
         $pessoa->nome = $request->input('nome');
         $pessoa->cpf = $request->input('cpf');
-        $pessoa->data_nasc = $request->input('dataNasc');
+        $dataConv = DateTime::createFromFormat('d/m/Y', $request->input('dataNasc'));
+        $dataFormatada= $dataConv->format('Y-m-d');
+        $pessoa->data_nasc = $dataFormatada;
         $pessoa->sexo = $request->input('sexo');
         $pessoa->tel_res = $request->input('tel_res');
         $pessoa->tel_cel = $request->input('tel_cel');
@@ -64,8 +67,8 @@ class PacienteController extends Controller
         $pessoa->bairro = $request->input('bairro');
         $pessoa->cidade = $request->input('cidade');
         $pessoa->uf = $request->input('uf');
-
-
+        $pessoa->save();
+        return response()->json(['data' => ['message'=>'Registro salvo com sucesso.']],200);
     }
 
 

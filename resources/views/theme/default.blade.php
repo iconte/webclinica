@@ -56,6 +56,8 @@
     <script src="{!! asset('js/bootstrap-table/locale/bootstrap-table-pt-BR.min.js') !!}"></script>
     <script src="{!! asset('js/toastr.min.js') !!}"></script>
     <script src={!! asset('/js/jquery.mask.min.js')!!}></script>
+    <script src={!! asset('/js/moment-with-locales.js')!!}></script>
+    <script src={!! asset('/js/moment-with-locales.js')!!}></script>
     @hasSection('javascript')
     @yield('javascript')
     @endif

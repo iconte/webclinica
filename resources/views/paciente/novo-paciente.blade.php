@@ -118,7 +118,7 @@
             <div class="col-lg-1">
                 <div class="form-group">
                     <label>UF </label>
-                    <input class="form-control" name="uf" id="uf" maxlength="2">
+                    <input class="form-control uf" name="uf" id="uf" maxlength="2">
                 </div>
             </div>
         </div>
@@ -130,13 +130,10 @@
                         <span id="salvar"><i class="fa fa-save"></i> Salvar</span>
                         <span id="salvando" style="display: none;">Salvando...</span>
                     </button>
-                    <a href="#" id="btnIrParaLista" class="btn-link  col-xs-12 col-sm-3 pull-right">Ir para Lista</a>
+                    <a href="#" id="btnIrParaLista" class="btn-link  col-xs-12 col-sm-3 pull-right" onclick="irParaLista()">Ir para Lista</a>
                  </div>
             </div>
         </div>
-
-
-
     </form>
     <script type="text/javascript" src="/js/paciente.js"></script>
 

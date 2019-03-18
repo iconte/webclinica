@@ -4,12 +4,17 @@ $.ajaxSetup({
     }
 });
 
-function msgErro(msg) {
+function msgValidacao(msg) {
     $(".erro-msg").find("ul").html('');
     $(".erro-msg").css('display', 'block');
     $.each(msg, function (key, value) {
         $(".erro-msg").find("ul").append('<li>' + value + '</li>');
     });
+}
+function msgErro(msg) {
+    $(".erro-msg").find("ul").html('');
+    $(".erro-msg").css('display', 'block');
+    $(".erro-msg").text(msg);
 }
 
 
@@ -26,14 +31,17 @@ $("#btnSalvarPaciente").click(function (event) {
     var dados_paciente = {
         'nome': $("#nome").val(),
         'cpf': $(".cpf").cleanVal(),
-        'dataNasc': $("#dataNasc").val(),
-        'tel_cel': $("#tel_cel").val(),
+        'cep': $(".cep").cleanVal(),
+        'dataNasc': $("#data_nasc").val(),
+        'tel_cel': $("#telcel").val(),
+        'tel_res': $("#telres").val(),
         'email': $("#email").val(),
-        'endereco': $("#endereco").val(),
+        'endereco': $("#end").val(),
         'numero': $("#numero").val(),
         'bairro': $("#bairro").val(),
         'cidade': $("#cidade").val(),
-        'sexo': $(".rdSexo").checked()
+        'uf': $("#uf").val(),
+        'sexo': $("input[name='rd_sexo']:checked"). val()
     };
     $.ajax({
         type: "POST",
@@ -49,16 +57,21 @@ $("#btnSalvarPaciente").click(function (event) {
             $("#salvar").show();
         },
         success: function (data) {
-            if (data.errors) {
-                msgErro(data.errors);
 
-            } else {
+            if(data){
+                if(data.errors){
+                    msgValidacao(data.errors);
+                    return;
+                }
                 $('#frmNovoPaciente')[0].reset();
                 toastr.info('Registro salvo com sucesso.');
             }
         },
         error: function (error) {
-            console.log(error);
+            var text = JSON.parse(error.responseText);
+            $("#salvando").hide();
+            $("#salvar").show();
+            msgErro(text.message);
         }
     });
 });
@@ -102,7 +115,9 @@ $("#btnBuscarPaciente").click(function (event) {
 
         },
         error: function (error) {
-            console.log(error.message);
+            $("#buscando").hide();
+            $("#buscar").show();
+            console.log(error);
         }
     });
 });
@@ -118,33 +133,58 @@ function exibirMsgSemResultado() {
 }
 
 $(function () {
+    var camposCepNovo = {
+        end: "#end", comp: "#complemento", bairro: "#bairro", cidade: "#cidade", uf: "#uf"
+    };
+    var camposCepEdicao = {
+        end: "#editar_end",
+        comp: "#editar_complemento",
+        bairro: "#editar_bairro",
+        cidade: "#editar_cidade",
+        uf: "#editar_uf"
+    };
+    var tratarCepNovo = function () {
+        return tratarCep(camposCepNovo)
+    };
+    var tratarCepEdicao = function () {
+        return tratarCep(camposCepEdicao)
+    };
     $("#loading").hide();
-    $("#cep").blur(tratarCep);
+    $("#cep").blur(tratarCepNovo);
+    $("#editar_cep").blur(tratarCepEdicao);
     $(".date").mask("00/00/0000");
     $(".cpf").mask("000.000.000-00", {reverse: true});
     $(".phone_with_ddd").mask("(00) 0000-0000");
     $(".cep").mask("00000-000");
     $(".numero").mask("00000");
+    $(".uf").mask("SS");
 });
 
-function tratarCep() {
-    var cep = $("#cep").cleanVal();
+function tratarCep(campos) {
+    var cep = $(".cep").cleanVal();
     var retorno;
     if (cep.length == 8) {
-        recuperarDadosViaCep(cep);
+        var data = recuperarDadosViaCep(cep)
+            .done(function (dados) {
+                if (dados) {
+                    preencherCamposEndereco(campos, JSON.parse(dados));
+                }
+            });
+
+
     }
 }
 
-function preencherCamposEndereco(dados) {
-    $("#end").val(dados.logradouro);
-    $("#complemento").val(dados.complemento);
-    $("#bairro").val(dados.bairro);
-    $("#cidade").val(dados.localidade);
-    $("#uf").val(dados.uf);
+function preencherCamposEndereco(campos, dados) {
+    $(campos.end).val(dados.logradouro);
+    $(campos.comp).val(dados.complemento);
+    $(campos.bairro).val(dados.bairro);
+    $(campos.cidade).val(dados.localidade);
+    $(campos.uf).val(dados.uf);
 }
 
 function recuperarDadosViaCep(cep) {
-    $.ajax({
+    return $.ajax({
         type: "GET",
         url: "/api/viacep/" + cep,
         context: this,
@@ -155,15 +195,23 @@ function recuperarDadosViaCep(cep) {
             $("#loading").hide();
         },
         success: function (data) {
-            if (data) {
-                preencherCamposEndereco(JSON.parse(data));
-            }
+            return data;
         },
         error: function (error) {
             console.log(error);
         }
     });
+}
 
+function limparCampos(campos){
+    for(var i=0; i <= campos.length;i++){
+        $(campos[i]).val('');
+    }
+}
+
+
+function irParaLista(){
+    $("#frmNovoPaciente")[0].reset();
 }
 
 function recuperarDados() {
