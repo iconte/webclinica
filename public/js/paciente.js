@@ -1,3 +1,4 @@
+var ultimaBusca;
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -17,6 +18,11 @@ function msgErro(msg) {
     $(".erro-msg").text(msg);
 }
 
+function recarregarTabelaBusca(){
+    $.get('/api/paciente/filtro',ultimaBusca,function(data){
+
+    });
+}
 
 $('.campoBusca').keypress(function (e) {
     if (e.which == 13) {
@@ -44,7 +50,7 @@ $("#btnSalvarPaciente").click(function (event) {
         'sexo': $("input[name='rd_sexo']:checked"). val()
     };
     $.ajax({
-        type: "POST",
+        type: "PUT",
         url: "/api/paciente",
         data: dados_paciente,
         context: this,
@@ -80,8 +86,8 @@ $("#btnAtualizarPaciente").click(function (event) {
     event.preventDefault();
     var dados_paciente = {
         'nome': $("#editar_nome").val(),
-        'cpf': $(".cpf").cleanVal(),
-        'cep': $(".cep").cleanVal(),
+        'cpf': $("#editar_cpf").cleanVal(),
+        'cep': $("#editar_cep").cleanVal(),
         'dataNasc': $("#editar_data_nasc").val(),
         'tel_cel': $("#editar_tel_cel").val(),
         'tel_res': $("#editar_tel_res").val(),
@@ -137,6 +143,7 @@ $("#btnBuscarPaciente").click(function (event) {
         dataNascimento: $("#busca_dn").val()
 
     };
+    ultimaBusca = busca_pessoa;
     $.ajax({
         type: "GET",
         url: "/api/paciente/filtro",
@@ -151,7 +158,7 @@ $("#btnBuscarPaciente").click(function (event) {
             $("#buscar").show();
         },
         success: function (resultado) {
-            console.log(resultado.data);
+            console.log(resultado);
             var $table = $('#resultado_busca');
             if (resultado && resultado.data && resultado.data.length > 0) {
                 var pacientes = resultado.data;
@@ -252,6 +259,27 @@ function recuperarDadosViaCep(cep) {
             console.log(error);
         }
     });
+}
+
+function apagarRegistro(id){
+    $.ajax({
+        type: "DELETE",
+        url: "/api/paciente/" + id,
+        context: this,
+        beforeSend: function () {
+           // $("#loading").show();
+        },
+        complete: function () {
+            //$("#loading").hide();
+        },
+        success: function (data) {
+            toastr.info('removido com sucesso.');
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
 }
 
 function limparCampos(campos){

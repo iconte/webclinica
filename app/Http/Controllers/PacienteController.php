@@ -77,7 +77,7 @@ class PacienteController extends Controller
         return response()->json(['data' => ['message'=>'Registro salvo com sucesso.']],200);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request){
         $validator = Validator::make($request->all(),[
             'nome' => 'required',
             'cpf' => 'required',
@@ -96,10 +96,31 @@ class PacienteController extends Controller
         }
 
         $pessoa = $this->preencherDadosPessoa($request);
-        $pessoa->id = $id;
         $pessoa->save();
 
         return response()->json(['data' => ['message'=>'Registro atualizado com sucesso.']],200);
+    }
+
+    public function destroy($id)
+    {
+        $pessoaEncontrada = Pessoa::find($id);
+        if($pessoaEncontrada){
+            $pessoaEncontrada->delete();
+        }else{
+            return response()->json(['error' => 'Nenhum resultado encontrado'], 204);
+        }
+
+    }
+
+    public function obterPorId($id)
+    {
+        $retorno = Pessoa::find($id);
+        if($retorno){
+            return new ExameResource($retorno);
+        }else{
+            return response()->json(['error' => 'Nenhum resultado encontrado'], 204);
+        }
+
     }
 
 

@@ -76,9 +76,9 @@
             <div class="table-responsive" style="margin-left: 5px;margin-right: 5px;">
                 <table id="resultado_busca"
                        class="table table-striped table-bordered table-hover "
-                       data-pagination="true"
-                       data-mobile-responsive="true"
-                       data-page-list="[10, 25, 50, 100, 200, All]">
+                       data-pagination="true",
+                       data-mobile-responsive="true">
+
 
                     <thead>
 
@@ -101,6 +101,7 @@
                 </table>
             </div>
 
+
         </div>
     </div>
 
@@ -108,6 +109,9 @@
 
 
     <div class="edicao" style="display: none;">
+        <div class="alert alert-danger erro-msg" style="display:none">
+            <ul></ul>
+        </div>
         <form id="frmEditarPaciente">
             <input type="hidden" id="editar_id_paciente">
             <div class="row">
@@ -236,6 +240,7 @@
         <script type="text/javascript" src="/js/paciente.js"></script>
         <script>
 
+
             function cpfFormatter(value){
                 if(value){
                     return $('.cpf').masked(value);
@@ -262,9 +267,10 @@
                     preencherDadosEditar(row);
                 },
                 'click .remove': function (e, value, row) {
-                    console.log(row);
+                   apagarRegistro(row.id);
                 }
             }
+
 
             //buscar do banco
             function preencherDadosEditar(dados){
@@ -277,7 +283,6 @@
 
                 if(dados.data_nasc){
                     var dtnasc = moment(dados.data_nasc).locale('pt-BR').format('L');
-                    console.log(dtnasc);
                     $("#editar_data_nasc").val(dtnasc);
                 }
                 $("#editar_tel_res").val(dados.tel_res);
@@ -308,7 +313,6 @@
                 $('.busca').hide();
                 $('.edicao').show();
             }
-
 
 
         </script>
