@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/paciente', 'PacienteController@store');
 Route::put('/paciente', 'PacienteController@update');
-Route::delete('/paciente', 'PacienteController@destroy');
+Route::delete('/paciente/{id}', 'PacienteController@destroy')->where('id', '[0-9]+');
 Route::get('/paciente', 'PacienteController@listar');
 Route::get('/paciente/{id}', 'PacienteController@obterPorId')->where('id', '[0-9]+');
 Route::get('/paciente/filtro', 'PacienteController@listarComFiltro');

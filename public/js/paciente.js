@@ -273,10 +273,15 @@ function apagarRegistro(id){
             //$("#loading").hide();
         },
         success: function (data) {
-            toastr.info('removido com sucesso.');
+            if(data.message){
+                toastr.warning(data.message);
+            }else{
+                toastr.info('removido com sucesso.');
+            }
+
         },
         error: function (error) {
-            console.log(error);
+                toastr.error(error);
         }
     });
 
@@ -292,6 +297,29 @@ function limparCampos(campos){
 function irParaLista(){
     $("#frmNovoPaciente")[0].reset();
 }
+
+function carregarDadosTabelaUltimaBusca() {
+    $.ajax({
+        type: "GET",
+        url: "/api/paciente/filtro",
+        context: this,
+        data: ultimaBusca,
+        success: function (data) {
+            var $table = $('#resultado_busca');
+            var pacientes = resultado.data;
+            $table.bootstrapTable('destroy');
+            $table.bootstrapTable({data: pacientes});
+
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    return retorno;
+}
+
+
+
 
 function recuperarDados() {
     $.ajax({

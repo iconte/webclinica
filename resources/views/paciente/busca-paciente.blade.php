@@ -14,6 +14,11 @@
 
 
     <div class="busca">
+        <form action="POST">
+            <input type="hidden" name="_method" value="PUT">
+
+
+
         <div class="row">
 
             <div class="form-horizontal" id="form_busca">
@@ -103,6 +108,7 @@
 
 
         </div>
+        </form>
     </div>
 
     <!-- TELA DE EDIÇÃO  -->

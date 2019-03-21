@@ -8,6 +8,7 @@ use App\Http\Resources\ExameCollection;
 use App\Http\Resources\ExameResource;
 use App\Pessoa;
 use DateTime;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use App\Item;
@@ -103,12 +104,21 @@ class PacienteController extends Controller
 
     public function destroy($id)
     {
-        $pessoaEncontrada = Pessoa::find($id);
-        if($pessoaEncontrada){
-            $pessoaEncontrada->delete();
-        }else{
-            return response()->json(['error' => 'Nenhum resultado encontrado'], 204);
+        try{
+            $pessoaEncontrada = Pessoa::find($id);
+            if($pessoaEncontrada){
+                $pessoaEncontrada->delete();
+            }else{
+                return response()->json(['message'=>'Id não encontrado.'],204);
+            }
+        }catch (QueryException $e){
+            $errorCode = $e->errorInfo[1];
+            if($errorCode == 1451){
+                return response()->json(['message'=>'Registro não pode ser apagado. Está em uso por outra tabela.']);
+            }
+
         }
+
 
     }
 
