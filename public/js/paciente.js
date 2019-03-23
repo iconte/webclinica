@@ -50,7 +50,7 @@ $("#btnSalvarPaciente").click(function (event) {
         'sexo': $("input[name='rd_sexo']:checked"). val()
     };
     $.ajax({
-        type: "PUT",
+        type: "POST",
         url: "/api/paciente",
         data: dados_paciente,
         context: this,
@@ -85,6 +85,7 @@ $("#btnSalvarPaciente").click(function (event) {
 $("#btnAtualizarPaciente").click(function (event) {
     event.preventDefault();
     var dados_paciente = {
+        'id':$('#editar_id_paciente').val(),
         'nome': $("#editar_nome").val(),
         'cpf': $("#editar_cpf").cleanVal(),
         'cep': $("#editar_cep").cleanVal(),
@@ -105,23 +106,24 @@ $("#btnAtualizarPaciente").click(function (event) {
         data: dados_paciente,
         context: this,
         beforeSend: function () {
-            $("#salvar").hide();
-            $("#salvando").show();
+            $("#atualizar").hide();
+            $("#atualizando").show();
         },
         complete: function () {
-            $("#salvando").hide();
-            $("#salvar").show();
+            $("#atualizando").hide();
+            $("#atualizar").show();
         },
         success: function (data) {
 
-            if(data){
-                if(data.errors){
-                    msgValidacao(data.errors);
-                    return;
-                }
-                $('#frmNovoPaciente')[0].reset();
-                toastr.info('Registro atualizado com sucesso.');
+            if(data && data.errors){
+                msgValidacao(data.errors);
+                return;
             }
+            carregarDadosTabelaUltimaBusca()
+                .done(function(){
+                    voltarParaLista();
+                    toastr.info('Registro atualizado com sucesso.');
+                });
         },
         error: function (error) {
             var text = JSON.parse(error.responseText);
@@ -199,6 +201,8 @@ $(function () {
         comp: "#editar_complemento",
         bairro: "#editar_bairro",
         cidade: "#editar_cidade",
+        cep: "#editar_cidade",
+        end: "#editar_end",
         uf: "#editar_uf"
     };
     var tratarCepNovo = function () {
@@ -299,7 +303,7 @@ function irParaLista(){
 }
 
 function carregarDadosTabelaUltimaBusca() {
-    $.ajax({
+  return $.ajax({
         type: "GET",
         url: "/api/paciente/filtro",
         context: this,
@@ -315,7 +319,6 @@ function carregarDadosTabelaUltimaBusca() {
             console.log(error);
         }
     });
-    return retorno;
 }
 
 

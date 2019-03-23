@@ -232,7 +232,10 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="form-group">
-                        <button id="btnAtualizarPaciente" class="btn btn-primary col-xs-12 col-sm-3" style="margin-bottom:5px;" ><i class="fa fa-save"></i> Salvar</button>
+                        <button id="btnAtualizarPaciente" class="btn btn-primary col-xs-12 col-sm-3" style="margin-bottom:5px;" >
+                            <span id="atualizar"><i class="fa fa-save"></i> Salvar</span>
+                            <span id="atualizando" style="display: none;">Salvando...</span>
+                            </button>
                         <a href="#" id="btnVoltarParaLista" class="btn-link  col-xs-12 col-sm-3 pull-right" onclick="voltarParaLista()">Ir para Lista</a>
                     </div>
                 </div>
@@ -294,7 +297,7 @@
                 $("#editar_tel_res").val(dados.tel_res);
                 $("#editar_tel_cel").val(dados.tel_cel);
                 $("#editar_email").val(dados.email);
-                $("#editar_endereco").val(dados.endereco);
+                $("#editar_end").val(dados.end);
                 $("#editar_numero").val(dados.numero);
                 $("#editar_bairro").val(dados.bairro);
                 $("#editar_cidade").val(dados.cidade);

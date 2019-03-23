@@ -33,8 +33,7 @@ class PacienteController extends Controller
 
     }
 
-    private function preencherDadosPessoa(Request $request){
-        $pessoa = new Pessoa();
+    private function preencherDadosPessoa(Request $request, $pessoa){
         $pessoa->nome = $request->input('nome');
         $pessoa->cpf = $request->input('cpf');
         $dataConv = DateTime::createFromFormat('d/m/Y', $request->input('dataNasc'));
@@ -45,6 +44,7 @@ class PacienteController extends Controller
         $pessoa->tel_cel = $request->input('tel_cel');
         $pessoa->email = $request->input('email');
         $pessoa->cep = $request->input('cep');
+        $pessoa->sexo = $request->input('sexo');
         $pessoa->endereco = $request->input('endereco');
         $pessoa->numero = $request->input('numero');
         $pessoa->complemento = $request->input('complemento');
@@ -72,8 +72,8 @@ class PacienteController extends Controller
         {
             return response()->json(['errors'=>$validator->errors()->all()]);
         }
-
-        $pessoa = $this->preencherDadosPessoa($request);
+        $pessoa = new Pessoa();
+        $pessoa = $this->preencherDadosPessoa($request,$pessoa);
         $pessoa->save();
         return response()->json(['data' => ['message'=>'Registro salvo com sucesso.']],200);
     }
@@ -95,9 +95,14 @@ class PacienteController extends Controller
         {
             return response()->json(['errors'=>$validator->errors()->all()]);
         }
+        $pessoa = Pessoa::find($request->input('id'));
+        if($pessoa){
+            $pessoa = $this->preencherDadosPessoa($request,$pessoa);
+            $pessoa->save();
+        }else{
+            return response()->json(['message'=>'Registro não encontrado.'],204);
+        }
 
-        $pessoa = $this->preencherDadosPessoa($request);
-        $pessoa->save();
 
         return response()->json(['data' => ['message'=>'Registro atualizado com sucesso.']],200);
     }
