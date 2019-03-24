@@ -297,12 +297,13 @@
                 $("#editar_tel_res").val(dados.tel_res);
                 $("#editar_tel_cel").val(dados.tel_cel);
                 $("#editar_email").val(dados.email);
-                $("#editar_end").val(dados.end);
+                $("#editar_cep").val(dados.cep);
+                $("#editar_end").val(dados.endereco);
+                $("#editar_complemento").val(dados.complemento);
                 $("#editar_numero").val(dados.numero);
                 $("#editar_bairro").val(dados.bairro);
                 $("#editar_cidade").val(dados.cidade);
                 $("#editar_uf").val(dados.uf);
-                $("#editar_rdsexo").val(dados.uf);
                 if(dados.sexo){
                     $("input[name=editar_rdsexo][value=" + dados.sexo + "]").attr('checked', 'checked');
                 }

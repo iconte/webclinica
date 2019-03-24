@@ -43,11 +43,12 @@ $("#btnSalvarPaciente").click(function (event) {
         'tel_res': $("#telres").val(),
         'email': $("#email").val(),
         'endereco': $("#end").val(),
+        'complemento': $("#complemento").val(),
         'numero': $("#numero").val(),
         'bairro': $("#bairro").val(),
         'cidade': $("#cidade").val(),
         'uf': $("#uf").val(),
-        'sexo': $("input[name='rd_sexo']:checked"). val()
+        'sexo': $("input[name='rd_sexo']:checked").val()
     };
     $.ajax({
         type: "POST",
@@ -94,11 +95,12 @@ $("#btnAtualizarPaciente").click(function (event) {
         'tel_res': $("#editar_tel_res").val(),
         'email': $("#editar_email").val(),
         'endereco': $("#editar_end").val(),
+        'complemento': $("#editar_complemento").val(),
         'numero': $("#editar_numero").val(),
         'bairro': $("#editar_bairro").val(),
         'cidade': $("#editar_cidade").val(),
         'uf': $("#editar_uf").val(),
-        'sexo': $("input[name='editar_rd_sexo']:checked"). val()
+        'sexo': $("input[name='editar_rdsexo']:checked").val()
     };
     $.ajax({
         type: "PUT",
@@ -142,7 +144,7 @@ $("#btnBuscarPaciente").click(function (event) {
     var busca_pessoa = {
         nome: $("#busca_nome").val(),
         cpf: $(".cpf").cleanVal(),
-        dataNascimento: $("#busca_dn").val()
+        dataNascimento: moment($("#busca_dn").val(),'DD/MM/YYYY').format('YYYY-MM-DD')
 
     };
     ultimaBusca = busca_pessoa;
@@ -308,7 +310,7 @@ function carregarDadosTabelaUltimaBusca() {
         url: "/api/paciente/filtro",
         context: this,
         data: ultimaBusca,
-        success: function (data) {
+        success: function (resultado) {
             var $table = $('#resultado_busca');
             var pacientes = resultado.data;
             $table.bootstrapTable('destroy');
