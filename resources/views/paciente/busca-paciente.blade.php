@@ -327,6 +327,7 @@
             }
             function voltarParaLista(){
                 $("#frmEditarPaciente")[0].reset();
+                limparMsgValidacao();
                 $('.busca').fadeIn();
                 $('.edicao').fadeOut();
 
