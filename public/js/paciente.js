@@ -192,9 +192,17 @@ function exibirMsgSemResultado() {
     $('#sem_resultado').show();
 }
 
+function aplicarMascaraCampos() {
+    $(".date").mask("00/00/0000");
+    $(".cpf").mask("000.000.000-00", {reverse: true});
+    $(".phone_with_ddd").mask("(00) 0000-0000");
+    $(".cep").mask("00000-000");
+    $(".numero").mask("00000");
+    $(".uf").mask("SS");
+}
 $(function () {
     var camposCepNovo = {
-        end: "#end", comp: "#complemento", bairro: "#bairro", cidade: "#cidade", uf: "#uf"
+       end: "#end", comp: "#complemento", bairro: "#bairro", cidade: "#cidade", uf: "#uf"
     };
     var camposCepEdicao = {
         end: "#editar_end",
@@ -214,12 +222,7 @@ $(function () {
     $("#loading").hide();
     $("#cep").blur(tratarCepNovo);
     $("#editar_cep").blur(tratarCepEdicao);
-    $(".date").mask("00/00/0000");
-    $(".cpf").mask("000.000.000-00", {reverse: true});
-    $(".phone_with_ddd").mask("(00) 0000-0000");
-    $(".cep").mask("00000-000");
-    $(".numero").mask("00000");
-    $(".uf").mask("SS");
+    aplicarMascaraCampos();
 });
 
 function tratarCep(campos) {

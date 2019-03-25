@@ -8,7 +8,7 @@ class Medico extends Model
 {
     //
     function pessoa(){
-        return  $this->belongsTo('App\Funcionario');
+        return  $this->belongsTo('App\Pessoa');
 
     }
 

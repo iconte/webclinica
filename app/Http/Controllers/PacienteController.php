@@ -146,7 +146,7 @@ class PacienteController extends Controller
 
     public function listarPorCpf($cpf)
     {
-        $retorno = $users = Pessoa::all(['id', 'cpf'])
+        $retorno = Pessoa::all()
             ->where('cpf', $cpf)->first();
         return response()->json(['data' => $retorno]);
     }

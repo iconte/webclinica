@@ -123,7 +123,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="form-group">
-                        <label>Nome</label>
+                        <label>Nome<span style="color:red">*</span></label>
                         <input id="editar_nome" name="editar_nome" class="form-control">
                     </div>
                 </div>
@@ -133,13 +133,13 @@
 
                 <div class="col-lg-2">
                     <div class="form-group">
-                        <label>CPF</label>
+                        <label>CPF<span style="color:red">*</span></label>
                         <input id="editar_cpf" name="editar_cpf" class="form-control cpf"  maxlength="11">
                     </div>
                 </div>
                 <div class="col-lg-2">
                     <div class="form-group">
-                        <label>Data de Nascimento</label>
+                        <label>Data de Nascimento<span style="color:red">*</span></label>
                         <input id="editar_data_nasc" name="editar_data_nasc" class="form-control date" maxlength="10" >
                     </div>
                 </div>
@@ -168,14 +168,14 @@
                 </div>
                 <div class="col-lg-2">
                     <div class="form-group">
-                        <label>Tel. Celular</label>
+                        <label>Tel. Celular<span style="color:red">*</span></label>
                         <input id="editar_tel_cel" name="editar_telcel" class="form-control phone_with_ddd"  maxlength="11">
                     </div>
                 </div>
 
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label>Email</label>
+                        <label>Email<span style="color:red">*</span></label>
                         <input id="editar_email" name="editar_email" class="form-control" maxlength="20">
                     </div>
                 </div>
@@ -190,13 +190,13 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="form-group">
-                        <label>Endereço</label>
+                        <label>Endereço<span style="color:red">*</span></label>
                         <input class="form-control" name="editar_end" id="editar_end" maxlength="200">
                     </div>
                 </div>
                 <div class="col-lg-1">
                     <div class="form-group">
-                        <label>Número</label>
+                        <label>Número<span style="color:red">*</span></label>
                         <input class="form-control numero" name="editar_numero" id="editar_numero" maxlength="5" >
                     </div>
                 </div>
@@ -211,13 +211,13 @@
                 </div>
                 <div class="col-lg-2">
                     <div class="form-group">
-                        <label>Bairro</label>
+                        <label>Bairro<span style="color:red">*</span></label>
                         <input class="form-control" name="editar_bairro" id="editar_bairro">
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label>Cidade</label>
+                        <label>Cidade<span style="color:red">*</span></label>
                         <input class="form-control" name="editar_cidade" id="editar_cidade">
                     </div>
                 </div>

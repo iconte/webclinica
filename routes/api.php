@@ -29,6 +29,9 @@ Route::get('/paciente/por-cpf/{cpf}', 'PacienteController@listarPorCpf');
 
 Route::get('/funcionario', 'FuncionarioController@listar');
 
+Route::post('/medico', 'MedicoController@store');
+
+
 
 
 Route::get('/exame', 'ExameController@listar');
