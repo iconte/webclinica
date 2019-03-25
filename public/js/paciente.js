@@ -17,12 +17,11 @@ function msgErro(msg) {
     $(".erro-msg").css('display', 'block');
     $(".erro-msg").text(msg);
 }
-
-function recarregarTabelaBusca(){
-    $.get('/api/paciente/filtro',ultimaBusca,function(data){
-
-    });
+function limparMsgValidacao(){
+    $(".erro-msg").find("ul").html('');
+    $(".erro-msg").css('display', 'none');
 }
+
 
 $('.campoBusca').keypress(function (e) {
     if (e.which == 13) {
@@ -71,6 +70,7 @@ $("#btnSalvarPaciente").click(function (event) {
                     return;
                 }
                 $('#frmNovoPaciente')[0].reset();
+                limparMsgValidacao();
                 toastr.info('Registro salvo com sucesso.');
             }
         },
@@ -124,6 +124,7 @@ $("#btnAtualizarPaciente").click(function (event) {
             carregarDadosTabelaUltimaBusca()
                 .done(function(){
                     voltarParaLista();
+                    limparMsgValidacao();
                     toastr.info('Registro atualizado com sucesso.');
                 });
         },
@@ -144,10 +145,10 @@ $("#btnBuscarPaciente").click(function (event) {
     var busca_pessoa = {
         nome: $("#busca_nome").val(),
         cpf: $(".cpf").cleanVal(),
-        dataNascimento: moment($("#busca_dn").val(),'DD/MM/YYYY').format('YYYY-MM-DD')
+        dataNascimento:  ($("#busca_dn").val()!= "") ? moment($("#busca_dn").val(),'DD/MM/YYYY').format('YYYY-MM-DD'): ""
 
     };
-    ultimaBusca = busca_pessoa;
+    var ultimaBusca = busca_pessoa;
     $.ajax({
         type: "GET",
         url: "/api/paciente/filtro",
@@ -162,7 +163,6 @@ $("#btnBuscarPaciente").click(function (event) {
             $("#buscar").show();
         },
         success: function (resultado) {
-            console.log(resultado);
             var $table = $('#resultado_busca');
             if (resultado && resultado.data && resultado.data.length > 0) {
                 var pacientes = resultado.data;
@@ -173,8 +173,6 @@ $("#btnBuscarPaciente").click(function (event) {
                 $table.bootstrapTable('destroy');
                 exibirMsgSemResultado();
             }
-
-
         },
         error: function (error) {
             $("#buscando").hide();
@@ -272,17 +270,17 @@ function apagarRegistro(id){
         type: "DELETE",
         url: "/api/paciente/" + id,
         context: this,
-        beforeSend: function () {
-           // $("#loading").show();
-        },
-        complete: function () {
-            //$("#loading").hide();
-        },
         success: function (data) {
             if(data.message){
                 toastr.warning(data.message);
+
             }else{
-                toastr.info('removido com sucesso.');
+                carregarDadosTabelaUltimaBusca()
+                    .done(function(){
+                        voltarParaLista();
+                        toastr.info('Registro apagado com sucesso.');
+                    });
+
             }
 
         },
@@ -292,13 +290,6 @@ function apagarRegistro(id){
     });
 
 }
-
-function limparCampos(campos){
-    for(var i=0; i <= campos.length;i++){
-        $(campos[i]).val('');
-    }
-}
-
 
 function irParaLista(){
     $("#frmNovoPaciente")[0].reset();
@@ -322,8 +313,6 @@ function carregarDadosTabelaUltimaBusca() {
         }
     });
 }
-
-
 
 
 function recuperarDados() {

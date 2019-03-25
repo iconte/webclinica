@@ -171,7 +171,7 @@ class PacienteController extends Controller
             $query->where('data_nasc', '=', $dataNasc);
         }
 
-        $retorno = $query->paginate(10);
+        $retorno = $query->paginate();
         return response()->json($retorno);
     }
 

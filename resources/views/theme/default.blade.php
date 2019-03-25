@@ -25,6 +25,7 @@
     <link href="{!! asset('theme/vendor/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/bootstrap-table.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/toastr.min.css') !!}" rel="stylesheet">
+    <link href="{!! asset('css/jquery-confirm.min.css') !!}" rel="stylesheet">
 
     {{--<link href="{!! asset('theme/vendor/font-awesome/css/font-awesome.min.css') !!}" rel="stylesheet" type="text/css">--}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -47,6 +48,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{!! asset('theme/dist/js/sb-admin-2.js') !!}"></script>
+    <script src="{!! asset('js/jquery-confirm.min.js') !!}"></script>
 
 
 
@@ -56,7 +58,6 @@
     <script src="{!! asset('js/bootstrap-table/locale/bootstrap-table-pt-BR.min.js') !!}"></script>
     <script src="{!! asset('js/toastr.min.js') !!}"></script>
     <script src={!! asset('/js/jquery.mask.min.js')!!}></script>
-    <script src={!! asset('/js/moment-with-locales.js')!!}></script>
     <script src={!! asset('/js/moment-with-locales.js')!!}></script>
     @hasSection('javascript')
     @yield('javascript')

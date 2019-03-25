@@ -91,7 +91,7 @@
 
                         <th data-field="cpf" data-formatter="cpfFormatter">CPF</th>
 
-                        <th data-field="nome">Nome</th>
+                        <th data-field="nome" data-sortable="true">Nome</th>
 
                         <th data-field="email" >Email</th>
 
@@ -236,7 +236,7 @@
                             <span id="atualizar"><i class="fa fa-save"></i> Salvar</span>
                             <span id="atualizando" style="display: none;">Salvando...</span>
                             </button>
-                        <a href="#" id="btnVoltarParaLista" class="btn-link  col-xs-12 col-sm-3 pull-right" onclick="voltarParaLista()">Ir para Lista</a>
+                        <a href="#" id="btnVoltarParaLista" class="btn btn-danger  col-xs-12 col-sm-3 pull-right" onclick="voltarParaLista()">Cancelar</a>
                     </div>
                 </div>
             </div>
@@ -276,7 +276,24 @@
                     preencherDadosEditar(row);
                 },
                 'click .remove': function (e, value, row) {
-                   apagarRegistro(row.id);
+                    $.confirm({
+                        title: 'Confirmação',
+                        content: 'Tem certeza que deseja apagar?',
+                        buttons: {
+                            confirm:{
+                                text: 'Sim',
+                                action:function () {
+                                    apagarRegistro(row.id);
+                                }
+                            },
+                            cancel:{
+                                text: 'Não',
+                                action: function () {
+
+                                }
+                            }
+                        }
+                    });
                 }
             }
 
@@ -309,11 +326,6 @@
                 }
             }
             function voltarParaLista(){
-               // var camposEditar = ["#editar_nome","#editar_cpf","#editar_data_nasc",
-                //    "#editar_tel_res","#editar_tel_cel","#editar_email","#editar_end","#editar_cep",
-                 //   "#editar_numero","#editar_bairro","#editar_cidade","editar_cep","#editar_numero",
-                  //  "#editar_complemento"];
-                //limparCampos(camposEditar);
                 $("#frmEditarPaciente")[0].reset();
                 $('.busca').fadeIn();
                 $('.edicao').fadeOut();
@@ -323,8 +335,6 @@
                 $('.busca').hide();
                 $('.edicao').show();
             }
-
-
         </script>
 
 @endsection

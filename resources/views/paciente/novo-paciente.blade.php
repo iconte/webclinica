@@ -130,7 +130,7 @@
                         <span id="salvar"><i class="fa fa-save"></i> Salvar</span>
                         <span id="salvando" style="display: none;">Salvando...</span>
                     </button>
-                    <a href="#" id="btnIrParaLista" class="btn-link  col-xs-12 col-sm-3 pull-right" onclick="irParaLista()">Ir para Lista</a>
+
                  </div>
             </div>
         </div>
