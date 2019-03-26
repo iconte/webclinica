@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Resources\ExameCollection;
+use App\Http\Resources\ExameResource;
 use App\Medico;
 use App\Pessoa;
 use DateTime;
@@ -34,6 +35,45 @@ class MedicoController extends Controller
 
     public function __construct()
     {
+
+    }
+
+    public function listar()
+    {
+        return ExameCollection::collection(Medico::with('pessoa')->get());
+    }
+
+    public function listarComFiltro(Request $request)
+    {
+        $parametros = $request;
+        $nome = $parametros['nome'];
+        $cpf = $parametros['cpf'];
+        $crm = $parametros['crm'];
+
+        $query = DB::table('medicos')->join('pessoas', 'pessoas.id', '=', 'medicos.pessoa_id');
+        if ($nome) {
+            $query->whereRaw('upper(pessoas.nome) like ?', ['%' . strtoupper($nome) . '%']);
+        }
+
+        if ($cpf) {
+            $query->where('pessoas.cpf', '=', $cpf);
+        }
+        if ($crm) {
+            $query->where('crm1', '=', $crm);
+        }
+
+        $retorno = $query->paginate();
+        return response()->json($retorno);
+    }
+
+    public function obterPorId($id)
+    {
+        $retorno = Medico::with('pessoa')->find($id);
+        if($retorno){
+            return new ExameResource($retorno);
+        }else{
+            return response()->json(['error' => 'Nenhum resultado encontrado'], 204);
+        }
 
     }
 

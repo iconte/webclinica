@@ -110,6 +110,59 @@ $("#btnSalvarMedico").click(function (event) {
     });
 });
 
+$("#btnBuscarMedico").click(function (event) {
+    event.preventDefault();
+
+    var busca_medico = {
+        nome: $("#busca_nome").val(),
+        cpf: $(".cpf").cleanVal(),
+        crm:  $("#busca_crm").val()
+
+    };
+    var ultimaBusca = busca_medico;
+    $.ajax({
+        type: "GET",
+        url: "/api/medico/filtro",
+        data: busca_medico,
+        context: this,
+        beforeSend: function () {
+            $("#buscar").hide();
+            $("#buscando").show();
+        },
+        complete: function () {
+            $("#buscando").hide();
+            $("#buscar").show();
+        },
+        success: function (resultado) {
+            var $table = $('#resultado_busca');
+            if (resultado && resultado.data && resultado.data.length > 0) {
+                var medicos = resultado.data;
+                $table.bootstrapTable('destroy');
+                $table.bootstrapTable({data: medicos});
+                exibirResultadoPesquisa();
+            } else {
+                $table.bootstrapTable('destroy');
+                exibirMsgSemResultado();
+            }
+        },
+        error: function (error) {
+            $("#buscando").hide();
+            $("#buscar").show();
+            console.log(error);
+        }
+    });
+});
+
+
+function exibirResultadoPesquisa() {
+    $('#sem_resultado').hide();
+    $('#lista').show();
+}
+function exibirMsgSemResultado() {
+    $('#lista').hide();
+    $('#sem_resultado').show();
+}
+
 
 
 function tratarBuscaCpf(campos) {
