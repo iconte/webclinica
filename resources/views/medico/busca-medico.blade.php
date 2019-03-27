@@ -314,8 +314,8 @@
         //buscar do banco
         function preencherDadosEditar(dados){
             $("#editar_id_medico").val(dados.id);
-            $("#editar_crm1").val(dados.crm);
-            $("#editar_crm2").val(dados.crm);
+            $("#editar_crm").val(dados.crm1);
+            $("#editar_crm2").val(dados.crm2);
             $("#editar_nome").val(dados.nome);
             if(dados.cpf){
                 $("#editar_cpf").val(dados.cpf).mask('000.000.000-00');

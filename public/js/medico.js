@@ -105,6 +105,79 @@ $("#btnBuscarMedico").click(function (event) {
     });
 });
 
+$("#btnAtualizarMedico").click(function (event) {
+    event.preventDefault();
+    var dados_medico = {
+        'id':$('#editar_id_medico').val(),
+        'nome': $("#editar_nome").val(),
+        'cpf': $("#editar_cpf").cleanVal(),
+        'cep': $("#editar_cep").cleanVal(),
+        'dataNasc': $("#editar_data_nasc").val(),
+        'tel_cel': $("#editar_tel_cel").val(),
+        'tel_res': $("#editar_tel_res").val(),
+        'email': $("#editar_email").val(),
+        'endereco': $("#editar_end").val(),
+        'complemento': $("#editar_complemento").val(),
+        'numero': $("#editar_numero").val(),
+        'bairro': $("#editar_bairro").val(),
+        'cidade': $("#editar_cidade").val(),
+        'uf': $("#editar_uf").val(),
+        'sexo': $("input[name='editar_rdsexo']:checked").val()
+    };
+    $.ajax({
+        type: "PUT",
+        url: "/api/medico",
+        data: dados_medico,
+        context: this,
+        beforeSend: function () {
+            $("#atualizar").hide();
+            $("#atualizando").show();
+        },
+        complete: function () {
+            $("#atualizando").hide();
+            $("#atualizar").show();
+        },
+        success: function (data) {
+
+            if(data && data.errors){
+                msgValidacao(data.errors);
+                return;
+            }
+            carregarDadosTabelaUltimaBusca()
+                .done(function(){
+                    voltarParaLista();
+                    limparMsgValidacao();
+                    toastr.info('Registro atualizado com sucesso.');
+                });
+        },
+        error: function (error) {
+            var text = JSON.parse(error.responseText);
+            $("#salvando").hide();
+            $("#salvar").show();
+            msgErro(text.message);
+        }
+    });
+});
+
+function carregarDadosTabelaUltimaBusca() {
+    return $.ajax({
+        type: "GET",
+        url: "/api/medico/filtro",
+        context: this,
+        data: ultimaBusca,
+        success: function (resultado) {
+            var $table = $('#resultado_busca');
+            var medicos = resultado.data;
+            $table.bootstrapTable('destroy');
+            $table.bootstrapTable({data: medicos});
+
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
 
 function exibirResultadoPesquisa() {
     $('#sem_resultado').hide();

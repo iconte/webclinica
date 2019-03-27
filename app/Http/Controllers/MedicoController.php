@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use App\Item;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-
+use PHPUnit\Framework\Exception;
 
 
 class MedicoController extends Controller
@@ -116,12 +116,48 @@ class MedicoController extends Controller
         }catch (\Exception $e){
             DB::rollback();
         }
-
-
-
-
-
         return response()->json(['data' => ['message'=>'Registro salvo com sucesso.']],200);
+    }
+
+    public function update(Request $request){
+        $validator = Validator::make($request->all(),[
+            'crm' => 'required',
+            'nome' => 'required',
+            'cpf' => 'required',
+            'dataNasc' => 'nullable|date_format:d/m/Y|before:today',
+            'tel_cel' => 'required',
+            'email' => 'required|email',
+            'endereco' => 'required',
+            'numero' => 'required',
+            'bairro' => 'required',
+            'cidade' => 'required',
+            'id' => 'required',
+            'pessoa-id' => 'required'
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }
+        try {
+            DB::beginTransaction();
+            $medico = Medico::find($request->input('id'));
+            $pessoa = Pessoa::find($request->input('pessoa_id'));
+            if ($pessoa) {
+                $pessoa = $this->preencherDadosPessoa($request, $pessoa);
+                $pessoa->save();
+
+
+                DB::commit();
+            } else {
+                return response()->json(['message' => 'Registro não encontrado.'], 204);
+            }
+            return response()->json(['data' => ['message'=>'Registro atualizado com sucesso.']],200);
+
+        }catch (Exception $e){
+            DB::rollback();
+        }
+
+
     }
 
 
