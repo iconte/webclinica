@@ -32,7 +32,9 @@ Route::get('/funcionario', 'FuncionarioController@listar');
 Route::post('/medico', 'MedicoController@store');
 Route::get('/medico', 'MedicoController@listar');
 Route::get('/medico/filtro', 'MedicoController@listarComFiltro');
-Route::get('/paciente/{id}', 'MedicoController@obterPorId')->where('id', '[0-9]+');
+Route::get('/medico/{id}', 'MedicoController@obterPorId')->where('id', '[0-9]+');
+Route::put('/medico', 'MedicoController@update');
+Route::delete('/medico/{id}', 'MedicoController@destroy')->where('id', '[0-9]+');
 
 
 

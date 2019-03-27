@@ -156,8 +156,24 @@ class MedicoController extends Controller
         }catch (Exception $e){
             DB::rollback();
         }
+    }
 
+    public function destroy($id)
+    {
+        try {
+            $medicoEncontrado = Medico::find($id);
+            if ($medicoEncontrado) {
+                $medicoEncontrado->delete();
+            } else {
+                return response()->json(['message' => 'Id não encontrado.'], 204);
+            }
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1451) {
+                return response()->json(['message' => 'Registro não pode ser apagado. Está em uso por outra tabela.']);
+            }
 
+        }
     }
 
 
