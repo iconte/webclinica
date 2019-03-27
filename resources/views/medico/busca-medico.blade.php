@@ -197,7 +197,7 @@
             <div class="row">
                 <div class="col-lg-2">
                     <div class="form-group">
-                        <label>CEP <img id="loading" src="/gif/loading.gif" style="width: 25%;display: none"/> </label>
+                        <label>CEP <img id="loading_cep" src="/gif/loading.gif" style="width: 25%;display: none"/> </label>
                         <input class="form-control cep" name="editar_cep" id="editar_cep"  maxlength="10">
                     </div>
                 </div>
@@ -258,7 +258,7 @@
 
         </form>
     </div>
-
+    <script type="text/javascript" src="/js/util.js"></script>
     <script type="text/javascript" src="/js/medico.js"></script>
     <script>
 

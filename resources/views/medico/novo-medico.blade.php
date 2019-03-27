@@ -149,6 +149,7 @@
             </div>
         </div>
     </form>
+    <script type="text/javascript" src="/js/util.js"></script>
     <script type="text/javascript" src="/js/medico.js"></script>
 
 @endsection
