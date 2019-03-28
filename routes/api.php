@@ -45,6 +45,7 @@ Route::get('/exame-por-codsus/{codsus}', 'ExameController@obterPorCodSus')->wher
 Route::get('/exame/categoria', 'ExameController@listarCategorias');
 Route::get('/exame/categoria/{id}', 'ExameController@obterCategoriaPorId')->where('id', '[0-9]+');
 
+
 Route::get('/medicamento/', 'MedicamentoController@listar');
 Route::get('/medicamento/{id}', 'MedicamentoController@obterPorId')->where('id', '[0-9]+');
 Route::get('/medicamento/classe-terapeutica', 'MedicamentoController@listarClassesTerapeuticas');

@@ -180,6 +180,33 @@ $("#btnAtualizarMedico").click(function (event) {
     });
 });
 
+
+function apagarRegistro(id){
+    $.ajax({
+        type: "DELETE",
+        url: "/api/medico/" + id,
+        context: this,
+        success: function (data) {
+            if(data.message){
+                toastr.warning(data.message);
+
+            }else{
+                carregarDadosTabelaUltimaBusca()
+                    .done(function(){
+                        voltarParaLista();
+                        toastr.info('Registro apagado com sucesso.');
+                    });
+
+            }
+
+        },
+        error: function (error) {
+            toastr.error(error);
+        }
+    });
+
+}
+
 function carregarDadosTabelaUltimaBusca() {
     return $.ajax({
         type: "GET",

@@ -50,16 +50,20 @@ class MedicoController extends Controller
         $cpf = $parametros['cpf'];
         $crm = $parametros['crm'];
         $retorno  = DB::table('medicos')
+            ->select('medicos.id AS medico_id', 'medicos.crm1', 'medicos.crm2', 'pessoas.id as pid', 'pessoas.nome',
+            'pessoas.sexo', 'pessoas.endereco', 'pessoas.tel_res', 'pessoas.tel_cel', 'pessoas.data_nasc','pessoas.cpf',
+             'pessoas.cep', 'pessoas.email','pessoas.numero', 'pessoas.complemento','pessoas.bairro', 'pessoas.cidade',
+             'pessoas.uf')
             ->join('pessoas', function ($join) use ($nome, $cpf) {
-                $join->on('pessoas.id', '=', 'medicos.pessoa_id')
+                $join->on('medicos.pessoa_id', '=', 'pessoas.id')
                     ->when($nome,function($query)use ($nome){
-                        return $query->where('nome','like','%'.$nome.'%');
+                        return $query->where('pessoas.nome','like','%'.$nome.'%');
                     })
                 ->when($cpf,function($query)use ($cpf){
-                    return $query->where('cpf',$cpf);
+                    return $query->where('pessoas.cpf',$cpf);
                 });
             })->when($crm, function ($query) use ($crm) {
-                return $query->where('crm1', $crm);
+                return $query->where('pessoas.crm1', $crm);
             })->get();
 
         return response()->json($retorno);
@@ -81,8 +85,7 @@ class MedicoController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'nome' => 'required',
-            'crm1' => 'required|unique:medicos',
-            'crm2' => 'nullable|unique:medicos',
+            'crm1' => 'required',
             'dataNasc' => 'required|date_format:d/m/Y|before:today',
             'tel_cel' => 'required',
             'email' => 'required|email',
@@ -122,8 +125,7 @@ class MedicoController extends Controller
 
     public function update(Request $request){
         $validator = Validator::make($request->all(),[
-            'crm1' => 'required|unique:medicos',
-            'crm2' => 'nullable|unique:medicos',
+            'crm1' => 'required',
             'nome' => 'required',
             'cpf' => 'required',
             'dataNasc' => 'nullable|date_format:d/m/Y|before:today',

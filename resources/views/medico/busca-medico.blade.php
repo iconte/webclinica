@@ -120,6 +120,7 @@
         </div>
         <form id="frmEditarMedico">
             <input type="hidden" id="editar_id_medico">
+            <input type="hidden" id="editar_pessoa_id">
             <div class="row">
                 <div class="col-lg-2">
                     <div class="form-group">
@@ -309,8 +310,8 @@
 
         //buscar do banco
         function preencherDadosEditar(dados){
-            $("#editar_id_medico").val(dados.id);
-            $("#editar_pessoa_id").val(dados.pessoa_id);
+            $("#editar_id_medico").val(dados.medico_id);
+            $("#editar_pessoa_id").val(dados.pid);
             $("#editar_crm").val(dados.crm1);
             $("#editar_crm2").val(dados.crm2);
                 $("#editar_nome").val(dados.nome);
