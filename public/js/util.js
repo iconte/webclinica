@@ -17,9 +17,7 @@ $(function () {
         end: "#editar_end",
         uf: "#editar_uf"
     };
-    var tratarBuscaCpfNovo = function () {
-        return tratarBuscaCpf(camposNovo)
-    };
+
     var tratarCepNovo = function () {
         return tratarCep(camposCepNovo)
     };
@@ -28,7 +26,6 @@ $(function () {
     };
 
     aplicarMascaraCampos();
-    $('#cpf').blur(tratarBuscaCpfNovo);
     $('#cep').blur(tratarCepNovo);
     //$('#editar_cpf').blur(tratarBuscaCpfEdicao);
 
@@ -95,6 +92,7 @@ function recuperarDadosViaCep(cep) {
 }
 
 function preencherCamposEndereco(campos, dados) {
+
     $(campos.end).val(dados.logradouro);
     $(campos.comp).val(dados.complemento);
     $(campos.bairro).val(dados.bairro);
@@ -103,24 +101,47 @@ function preencherCamposEndereco(campos, dados) {
 }
 
 function preencherCamposPessoa(campos, dados) {
-    $(campos.nome).val(dados.nome);
-    if(dados.data_nasc){
+    if(campos.nome){
+        $(campos.nome).val(dados.nome);
+    }
+    if(campos.dataNasc && dados.data_nasc){
         var dtnasc = moment(dados.data_nasc).locale('pt-BR').format('L');
         $(campos.dataNasc).val(dtnasc);
     }
     if(dados.sexo){
-        $("input[name=rdsexo][value=" + dados.sexo + "]").attr('checked', 'checked');
+        $("input[name=rd_sexo][value=" + dados.sexo + "]").attr('checked', 'checked');
     }
-    $(campos.telRes).val(dados.tel_res);
-    $(campos.telCel).val(dados.tel_cel);
-    $(campos.cep).val(dados.cep);
-    $(campos.numero).val(dados.numero);
-    $(campos.email).val(dados.email);
-    $(campos.end).val(dados.endereco);
-    $(campos.comp).val(dados.complemento);
-    $(campos.bairro).val(dados.bairro);
-    $(campos.cidade).val(dados.cidade);
-    $(campos.uf).val(dados.uf);
+    if(campos.email){
+        $(campos.email).val(dados.email);
+    }
+    if(campos.telRes){
+        $(campos.telRes).val(dados.tel_res);
+    }
+    if(campos.telCel){
+        $(campos.telCel).val(dados.tel_cel);
+    }
+    if(campos.cep){
+        $(campos.cep).val(dados.cep);
+    }
+    if(campos.numero){
+        $(campos.numero).val(dados.numero);
+    }
+    if(campos.end){
+        $(campos.end).val(dados.endereco);
+    }
+    if(campos.comp){
+        $(campos.comp).val(dados.complemento);
+    }
+    if(campos.bairro){
+        $(campos.bairro).val(dados.bairro);
+    }
+    if(campos.cidade){
+        $(campos.cidade).val(dados.cidade);
+    }
+    if(campos.uf){
+        $(campos.uf).val(dados.uf);
+    }
+
 }
 
 function aplicarMascaraCampos() {

@@ -81,7 +81,7 @@ class PacienteController extends Controller
     public function update(Request $request){
         $validator = Validator::make($request->all(),[
             'nome' => 'required',
-            'cpf' => 'required',
+            'cpf' => 'required|unique:pessoas',
             'dataNasc' => 'required|date_format:d/m/Y|before:today',
             'tel_cel' => 'required',
             'email' => 'required|email',

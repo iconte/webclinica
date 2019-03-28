@@ -1,4 +1,19 @@
 var ultimaBusca;
+var camposNovo = {
+    nome: '#nome',
+    cpf:'#cpf',
+    dataNasc:'#data_nasc',
+    telRes:'#telres',
+    telCel:'#telcel',
+    email:'#email',
+    cep:'#cep',
+    end:'#end',
+    complemento:'#complemento',
+    numero: '#numero',
+    bairro: '#bairro',
+    cidade: '#cidade',
+    uf:   '#uf'
+};
 
 $('.campoBusca').keypress(function (e) {
     if (e.which == 13) {
@@ -7,12 +22,17 @@ $('.campoBusca').keypress(function (e) {
     }
 });
 
-
+$(function () {
+    var tratarBuscaCpfNovo = function () {
+        return tratarBuscaCpf(camposNovo)
+    };
+    $('#cpf').blur(tratarBuscaCpfNovo);
+});
 
 $("#btnSalvarMedico").click(function (event) {
     event.preventDefault();
     var dados_medico = {
-        'crm': $("#crm").val(),
+        'crm1': $("#crm").val(),
         'crm2': $("#crm2").val(),
         'nome': $("#nome").val(),
         'cpf': $(".cpf").cleanVal(),
@@ -67,7 +87,7 @@ $("#btnBuscarMedico").click(function (event) {
 
     var busca_medico = {
         nome: $("#busca_nome").val(),
-        cpf: $(".cpf").cleanVal(),
+        cpf: $("#busca_cpf").cleanVal(),
         crm:  $("#busca_crm").val()
 
     };
@@ -87,8 +107,8 @@ $("#btnBuscarMedico").click(function (event) {
         },
         success: function (resultado) {
             var $table = $('#resultado_busca');
-            if (resultado && resultado.data && resultado.data.length > 0) {
-                var medicos = resultado.data;
+            if (resultado) {
+                var medicos = resultado;
                 $table.bootstrapTable('destroy');
                 $table.bootstrapTable({data: medicos});
                 exibirResultadoPesquisa();
@@ -109,6 +129,7 @@ $("#btnAtualizarMedico").click(function (event) {
     event.preventDefault();
     var dados_medico = {
         'id':$('#editar_id_medico').val(),
+        'crm1':$('#editar_crm').val(),
         'nome': $("#editar_nome").val(),
         'cpf': $("#editar_cpf").cleanVal(),
         'cep': $("#editar_cep").cleanVal(),

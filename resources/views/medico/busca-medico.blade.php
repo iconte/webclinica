@@ -91,7 +91,9 @@
 
                             <th data-field="crm1" >CRM</th>
 
-                            <th data-field="nome" data-sortable="true">Nome</th>
+                            <th data-field="cpf" data-formatter="cpfFormatter">CPF</th>
+
+                            <th data-field="nome" data-sortable="true" >Nome</th>
 
                             <th data-field="email" >Email</th>
 
@@ -262,7 +264,6 @@
     <script type="text/javascript" src="/js/medico.js"></script>
     <script>
 
-
         function cpfFormatter(value){
             if(value){
                 return $('.cpf').masked(value);
@@ -270,19 +271,14 @@
                 return;
             }
         }
+
         function actionFormatter(value) {
             return [
                 '<a class="update btn btn-primary" style="margin-right:10px;" href="javascript:" ><i class="fa fa-pencil"></i><span class="hidden-xs"> Editar</span></a>',
                 '<a class="remove btn btn-danger" href="javascript:" ><i class="fa fa-trash"></i><span class="hidden-xs"> Remover</span></a>'
             ].join('')
         }
-        function dateFormatter(value){
-            if(value){
-                return moment(value).locale('pt-BR').format('L');
-            }else{
-                return;
-            }
-        }
+
         window.commonEvents = {
             'click .update': function (e, value, row) {
                 exibirEditar();
@@ -314,31 +310,33 @@
         //buscar do banco
         function preencherDadosEditar(dados){
             $("#editar_id_medico").val(dados.id);
+            $("#editar_pessoa_id").val(dados.pessoa_id);
             $("#editar_crm").val(dados.crm1);
             $("#editar_crm2").val(dados.crm2);
-            $("#editar_nome").val(dados.nome);
-            if(dados.cpf){
-                $("#editar_cpf").val(dados.cpf).mask('000.000.000-00');
-                $("#editar_cpf" ).trigger({type: 'keypress', which: 32, keyCode: 32});
-            }
+                $("#editar_nome").val(dados.nome);
+                if(dados.cpf){
+                    $("#editar_cpf").val(dados.cpf).mask('000.000.000-00');
+                    $("#editar_cpf" ).trigger({type: 'keypress', which: 32, keyCode: 32});
+                }
 
-            if(dados.data_nasc){
-                var dtnasc = moment(dados.data_nasc).locale('pt-BR').format('L');
-                $("#editar_data_nasc").val(dtnasc);
-            }
-            $("#editar_tel_res").val(dados.tel_res);
-            $("#editar_tel_cel").val(dados.tel_cel);
-            $("#editar_email").val(dados.email);
-            $("#editar_cep").val(dados.cep);
-            $("#editar_end").val(dados.endereco);
-            $("#editar_complemento").val(dados.complemento);
-            $("#editar_numero").val(dados.numero);
-            $("#editar_bairro").val(dados.bairro);
-            $("#editar_cidade").val(dados.cidade);
-            $("#editar_uf").val(dados.uf);
-            if(dados.sexo){
-                $("input[name=editar_rdsexo][value=" + dados.sexo + "]").attr('checked', 'checked');
-            }
+                if(dados.data_nasc){
+                    var dtnasc = moment(dados.data_nasc).locale('pt-BR').format('L');
+                    $("#editar_data_nasc").val(dtnasc);
+                }
+                $("#editar_tel_res").val(dados.tel_res);
+                $("#editar_tel_cel").val(dados.tel_cel);
+                $("#editar_email").val(dados.email);
+                $("#editar_cep").val(dados.cep);
+                $("#editar_end").val(dados.endereco);
+                $("#editar_complemento").val(dados.complemento);
+                $("#editar_numero").val(dados.numero);
+                $("#editar_bairro").val(dados.bairro);
+                $("#editar_cidade").val(dados.cidade);
+                $("#editar_uf").val(dados.uf);
+                if(dados.sexo){
+                    $("input[name=editar_rdsexo][value=" + dados.sexo + "]").attr('checked', 'checked');
+                }
+
         }
         function voltarParaLista(){
             $("#frmEditarMedico")[0].reset();

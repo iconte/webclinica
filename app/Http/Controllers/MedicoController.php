@@ -49,20 +49,19 @@ class MedicoController extends Controller
         $nome = $parametros['nome'];
         $cpf = $parametros['cpf'];
         $crm = $parametros['crm'];
+        $retorno  = DB::table('medicos')
+            ->join('pessoas', function ($join) use ($nome, $cpf) {
+                $join->on('pessoas.id', '=', 'medicos.pessoa_id')
+                    ->when($nome,function($query)use ($nome){
+                        return $query->where('nome','like','%'.$nome.'%');
+                    })
+                ->when($cpf,function($query)use ($cpf){
+                    return $query->where('cpf',$cpf);
+                });
+            })->when($crm, function ($query) use ($crm) {
+                return $query->where('crm1', $crm);
+            })->get();
 
-        $query = DB::table('medicos')->join('pessoas', 'pessoas.id', '=', 'medicos.pessoa_id');
-        if ($nome) {
-            $query->whereRaw('upper(pessoas.nome) like ?', ['%' . strtoupper($nome) . '%']);
-        }
-
-        if ($cpf) {
-            $query->where('pessoas.cpf', '=', $cpf);
-        }
-        if ($crm) {
-            $query->where('crm1', '=', $crm);
-        }
-
-        $retorno = $query->paginate();
         return response()->json($retorno);
     }
 
@@ -82,7 +81,8 @@ class MedicoController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'nome' => 'required',
-            'crm' => 'required',
+            'crm1' => 'required|unique:medicos',
+            'crm2' => 'nullable|unique:medicos',
             'dataNasc' => 'required|date_format:d/m/Y|before:today',
             'tel_cel' => 'required',
             'email' => 'required|email',
@@ -102,13 +102,14 @@ class MedicoController extends Controller
         }
         $pessoa = $this->preencherDadosPessoa($request,$pessoa);
         try{
+            $medico = Medico::where('pessoa_id',$pessoa->id)->first();
+            if(isset($medico)){
+                return response()->json(['errors'=> array('Já existe um Médico com o cpf informado.')]);
+            }
             DB::beginTransaction();
             $pessoa->save();
-            $medico = Medico::where('pessoa_id',$pessoa->id)->first();
-            if(!isset($medico)){
-                $medico= new Medico();
-            }
-            $medico->crm1 = $request->input('crm');
+            $medico= new Medico();
+            $medico->crm1 = $request->input('crm1');
             $medico->crm2 = $request->input('crm2');
             $medico->pessoa_id = $pessoa->id;
             $medico->save();
@@ -121,7 +122,8 @@ class MedicoController extends Controller
 
     public function update(Request $request){
         $validator = Validator::make($request->all(),[
-            'crm' => 'required',
+            'crm1' => 'required|unique:medicos',
+            'crm2' => 'nullable|unique:medicos',
             'nome' => 'required',
             'cpf' => 'required',
             'dataNasc' => 'nullable|date_format:d/m/Y|before:today',
@@ -131,26 +133,37 @@ class MedicoController extends Controller
             'numero' => 'required',
             'bairro' => 'required',
             'cidade' => 'required',
-            'id' => 'required',
-            'pessoa-id' => 'required'
+            'id' => 'required'
         ]);
         if ($validator->fails())
         {
             return response()->json(['errors'=>$validator->errors()->all()]);
         }
         try {
-            DB::beginTransaction();
-            $medico = Medico::find($request->input('id'));
-            $pessoa = Pessoa::find($request->input('pessoa_id'));
-            if ($pessoa) {
-                $pessoa = $this->preencherDadosPessoa($request, $pessoa);
-                $pessoa->save();
-
-
-                DB::commit();
-            } else {
-                return response()->json(['message' => 'Registro não encontrado.'], 204);
+            $cpf= $request->input('cpf');
+            $pessoa = Pessoa::where('cpf', $cpf)->first();
+            $medicoCpfDuplicado= null;
+            if(isset($pessoa)){
+                $medicoCpfEncontrado = Medico::where('pessoa_id',$pessoa->id)->first();
+                if(isset($medicoCpfEncontrado)){
+                    $idMedicoEditar = $request->input('id');
+                    $medicoCpfDuplicado = ($medicoCpfEncontrado->id != $idMedicoEditar);
+                    if($medicoCpfDuplicado){
+                        return response()->json(['errors'=> array('Já existe um Médico com o cpf informado.')]);
+                    }
+                }
+            }else{
+                $pessoa = new Pessoa();
             }
+            $medico = Medico::find($request->input('id'));
+            $pessoa = $this->preencherDadosPessoa($request, $pessoa);
+            DB::beginTransaction();
+            $pessoa->save();
+            $medico->crm1 = $request->input('crm1');
+            $medico->crm2 = $request->input('crm2');
+            $medico->pessoa_id = $pessoa->id;
+            $medico->save();
+            DB::commit();
             return response()->json(['data' => ['message'=>'Registro atualizado com sucesso.']],200);
 
         }catch (Exception $e){
