@@ -16,11 +16,7 @@
                         <a href="{{ route('buscar-pacientes') }}"><i class="fa fa-search fa-fw"></i> Busca</a>
 
                     </li>
-                    <li>
 
-                        <a href="#"><i class="fa fa-upload fa-fw"></i> Importar Dados</a>
-
-                    </li>
                 </ul>
             </li>
             <li>
@@ -48,91 +44,106 @@
                     </li>
                     <li>
 
-                        <a href="{{ route('buscar-usuarios') }}"><i class="fa fa-user fa-fw"></i> Busca</a>
+                        <a href="{{ route('buscar-usuarios') }}"><i class="fa fa-search fa-fw"></i> Busca</a>
 
                     </li>
                 </ul>
             </li>
 
-
-
             <li>
-
-                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-
+                <a href="#"><i class="fa fa-calendar fa-fw"></i>Consultas</a>
                 <ul class="nav nav-second-level">
-
                     <li>
 
-                        <a href="flot.html">Flot Charts</a>
+                        <a href="#"><i class="fa fa-plus fa-fw"></i> Novo Agendamento</a>
 
                     </li>
-
                     <li>
 
-                        <a href="morris.html">Morris.js Charts</a>
+                        <a href="#"><i class="fa fa-search fa-fw"></i> Busca</a>
 
                     </li>
-
                 </ul>
-
-                <!-- /.nav-second-level -->
-
             </li>
 
-            <li>
 
-                <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
+            {{--<li>--}}
 
-            </li>
+                {{--<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>--}}
 
-            <li>
+                {{--<ul class="nav nav-second-level">--}}
 
-                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                    {{--<li>--}}
 
-            </li>
+                        {{--<a href="flot.html">Flot Charts</a>--}}
 
-            <li>
+                    {{--</li>--}}
 
-                <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                    {{--<li>--}}
 
-                <ul class="nav nav-second-level">
+                        {{--<a href="morris.html">Morris.js Charts</a>--}}
 
-                    <li>
+                    {{--</li>--}}
 
-                        <a href="panels-wells.html">Panels and Wells</a>
+                {{--</ul>--}}
 
-                    </li>
+                {{--<!-- /.nav-second-level -->--}}
 
-                </ul>
+            {{--</li>--}}
 
-                <!-- /.nav-second-level -->
+            {{--<li>--}}
 
-            </li>
+                {{--<a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>--}}
 
-            <li>
+            {{--</li>--}}
 
-                <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+            {{--<li>--}}
 
-                <ul class="nav nav-second-level">
+                {{--<a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>--}}
 
-                    <li>
+            {{--</li>--}}
 
-                        <a href="blank.html">Blank Page</a>
+            {{--<li>--}}
 
-                    </li>
+                {{--<a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>--}}
 
-                    <li>
+                {{--<ul class="nav nav-second-level">--}}
 
-                        <a href="login.html">Login Page</a>
+                    {{--<li>--}}
 
-                    </li>
+                        {{--<a href="panels-wells.html">Panels and Wells</a>--}}
 
-                </ul>
+                    {{--</li>--}}
 
-                <!-- /.nav-second-level -->
+                {{--</ul>--}}
 
-            </li>
+                {{--<!-- /.nav-second-level -->--}}
+
+            {{--</li>--}}
+
+            {{--<li>--}}
+
+                {{--<a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>--}}
+
+                {{--<ul class="nav nav-second-level">--}}
+
+                    {{--<li>--}}
+
+                        {{--<a href="blank.html">Blank Page</a>--}}
+
+                    {{--</li>--}}
+
+                    {{--<li>--}}
+
+                        {{--<a href="login.html">Login Page</a>--}}
+
+                    {{--</li>--}}
+
+                {{--</ul>--}}
+
+                {{--<!-- /.nav-second-level -->--}}
+
+            {{--</li>--}}
 
         </ul>
 
