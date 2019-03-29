@@ -63,7 +63,7 @@ class MedicoController extends Controller
                     return $query->where('pessoas.cpf',$cpf);
                 });
             })->when($crm, function ($query) use ($crm) {
-                return $query->where('pessoas.crm1', $crm);
+                return $query->where('crm1', $crm);
             })->get();
 
         return response()->json($retorno);
@@ -85,7 +85,7 @@ class MedicoController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'nome' => 'required',
-            'crm1' => 'required',
+            'crm1' => 'required|unique:medicos',
             'dataNasc' => 'required|date_format:d/m/Y|before:today',
             'tel_cel' => 'required',
             'email' => 'required|email',
@@ -168,8 +168,12 @@ class MedicoController extends Controller
             DB::commit();
             return response()->json(['data' => ['message'=>'Registro atualizado com sucesso.']],200);
 
-        }catch (Exception $e){
+        } catch (QueryException $e) {
             DB::rollback();
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1062) {
+                return response()->json(['errors'=> array('Crm já utilizado em outro registro.')]);
+            }
         }
     }
 

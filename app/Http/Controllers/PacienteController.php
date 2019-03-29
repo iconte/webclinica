@@ -81,7 +81,7 @@ class PacienteController extends Controller
     public function update(Request $request){
         $validator = Validator::make($request->all(),[
             'nome' => 'required',
-            'cpf' => 'required|unique:pessoas',
+            'cpf' => 'required',
             'dataNasc' => 'required|date_format:d/m/Y|before:today',
             'tel_cel' => 'required',
             'email' => 'required|email',
@@ -98,7 +98,16 @@ class PacienteController extends Controller
         $pessoa = Pessoa::find($request->input('id'));
         if($pessoa){
             $pessoa = $this->preencherDadosPessoa($request,$pessoa);
-            $pessoa->save();
+            try {
+                $pessoa->save();
+            }catch (QueryException $e){
+                $errorCode = $e->errorInfo[1];
+                if($errorCode == 1062){
+                    return response()->json(['errors'=> array('Cpf já utilizado em outro registro.')]);
+                }
+
+            }
+
         }else{
             return response()->json(['message'=>'Registro não encontrado.'],204);
         }

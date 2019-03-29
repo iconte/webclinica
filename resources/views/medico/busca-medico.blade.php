@@ -293,7 +293,7 @@
                         confirm:{
                             text: 'Sim',
                             action:function () {
-                                apagarRegistro(row.id);
+                                apagarRegistro(row.medico_id);
                             }
                         },
                         cancel:{
