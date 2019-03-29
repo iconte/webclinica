@@ -14,12 +14,12 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('myHome');
 })->middleware('auth');
 
 Auth::routes();
 
-Route::get('my-home', 'HomeController@index')->name('myHome');
+Route::get('my-home', 'HomeController@myHome')->name('myHome');
 
 Route::get('novo-usuario', 'UsuarioController@viewNovoUsuario')->name('novo-usuario');
 
