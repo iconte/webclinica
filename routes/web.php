@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth');
 
+Auth::routes();
 
-Route::get('my-home', 'HomeController@myHome')->name('home');
+Route::get('my-home', 'HomeController@index')->name('myHome');
 
 Route::get('novo-usuario', 'UsuarioController@viewNovoUsuario')->name('novo-usuario');
 
@@ -33,3 +34,5 @@ Route::get('buscar-pacientes', 'PacienteController@viewBuscarPacientes')->name('
 Route::get('novo-medico', 'MedicoController@viewNovoMedico')->name('novo-medico');
 
 Route::get('buscar-medicos', 'MedicoController@viewBuscarMedicos')->name('buscar-medicos');
+
+Route::get('/home', 'HomeController@index')->name('home');

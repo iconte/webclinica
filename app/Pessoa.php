@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Pessoa extends Model
 {
 
-    public function funcionario(){
-        return $this->hasOne('App\Funcionario');
-    }
 
     public function medico(){
         return $this->hasOne('App\Medico');
