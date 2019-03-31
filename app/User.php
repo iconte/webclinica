@@ -18,6 +18,11 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+    function pessoa(){
+        return  $this->belongsTo('App\Pessoa');
+
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -12,7 +12,7 @@
 
     </button>
 
-    <a class="navbar-brand" href="{{ route('home') }}">  <i class="fa fa-stethoscope fa-fw"></i> Web Clinica</a>
+    <a class="navbar-brand" href="{{ route('myHome') }}">  <i class="fa fa-stethoscope fa-fw"></i> Web Clinica</a>
 
 </div>
 

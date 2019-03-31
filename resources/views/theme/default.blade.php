@@ -26,6 +26,8 @@
     <link href="{!! asset('css/bootstrap-table.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/toastr.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/jquery-confirm.min.css') !!}" rel="stylesheet">
+    <link href="{!! asset('css/bootstrap-datetimepicker.css') !!}" rel="stylesheet">
+    <link href="{!! asset('css/bootstrap-datetimepicker-standalone.css') !!}" rel="stylesheet">
 
     {{--<link href="{!! asset('theme/vendor/font-awesome/css/font-awesome.min.css') !!}" rel="stylesheet" type="text/css">--}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -59,6 +61,7 @@
     <script src="{!! asset('js/toastr.min.js') !!}"></script>
     <script src={!! asset('/js/jquery.mask.min.js')!!}></script>
     <script src={!! asset('/js/moment-with-locales.js')!!}></script>
+    <script src={!! asset('/js/bootstrap-datetimepicker.min.js')!!}></script>
     @hasSection('javascript')
     @yield('javascript')
     @endif

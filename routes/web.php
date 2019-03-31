@@ -38,3 +38,8 @@ Route::get('novo-medico', 'MedicoController@viewNovoMedico')->name('novo-medico'
 Route::get('buscar-medicos', 'MedicoController@viewBuscarMedicos')->name('buscar-medicos');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('novo-agendamento', 'AgendamentoController@viewNovoAgendamento')->name('novo-agendamento');
+
+Route::get('buscar-agendamentos', 'AgendamentoController@viewBuscarAgendamentos')->name('buscar-agendamentos');

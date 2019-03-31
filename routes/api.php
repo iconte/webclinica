@@ -35,6 +35,9 @@ Route::put('/medico', 'MedicoController@update');
 Route::delete('/medico/{id}', 'MedicoController@destroy')->where('id', '[0-9]+');
 
 
+Route::post('/agendamento', 'AgendamentoController@store');
+Route::get('/agendamento/filtro', 'AgendamentoController@listarComFiltro');
+Route::delete('/agendamento/{id}', 'AgendamentoController@destroy')->where('id', '[0-9]+');
 
 
 Route::get('/exame', 'ExameController@listar');

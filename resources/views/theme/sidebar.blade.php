@@ -55,12 +55,17 @@
                 <ul class="nav nav-second-level">
                     <li>
 
-                        <a href="#"><i class="fa fa-plus fa-fw"></i> Novo Agendamento</a>
+                        <a href="#"><i class="fa fa-plus fa-fw"></i> Nova Consulta</a>
 
                     </li>
                     <li>
 
-                        <a href="#"><i class="fa fa-search fa-fw"></i> Busca</a>
+                        <a href="{{ route('novo-agendamento') }}"><i class="fa fa-plus fa-fw"></i> Novo Agendamento</a>
+
+                    </li>
+                    <li>
+
+                        <a href="{{ route('buscar-agendamentos') }}"><i class="fa fa-search fa-fw"></i> Busca</a>
 
                     </li>
                 </ul>
