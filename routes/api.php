@@ -25,6 +25,7 @@ Route::get('/paciente/{id}', 'PacienteController@obterPorId')->where('id', '[0-9
 Route::get('/paciente/filtro', 'PacienteController@listarComFiltro');
 Route::get('/paciente/por-cpf/{cpf}', 'PacienteController@listarPorCpf');
 
+Route::get('/especialidade', 'EspecialidadeController@listar');
 
 
 Route::post('/medico', 'MedicoController@store');

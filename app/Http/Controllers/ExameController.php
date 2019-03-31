@@ -19,7 +19,7 @@ class ExameController extends Controller
      */
     public function listar()
     {
-        return ExameCollection::collection((Exame::paginate()));
+        return ExameCollection::collection((Exame::all()));
     }
     public function listarCategorias()
     {
