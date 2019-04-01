@@ -12,6 +12,11 @@ class MedicamentoController extends Controller
 {
     //
 
+    public function listarPorNome($nome)
+    {
+        return ExameCollection::collection((Medicamento::where('nome_generico','like' ,'%'.$nome.'%')
+            ->orWhere('nome_fabrica','like','%'.$nome.'%')->get()));
+    }
 
     public function listar()
     {

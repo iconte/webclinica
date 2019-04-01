@@ -43,3 +43,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('novo-agendamento', 'AgendamentoController@viewNovoAgendamento')->name('novo-agendamento');
 
 Route::get('buscar-agendamentos', 'AgendamentoController@viewBuscarAgendamentos')->name('buscar-agendamentos');
+
+
+Route::get('nova-consulta', 'ConsultaController@viewNovaConsulta')->name('nova-consulta');

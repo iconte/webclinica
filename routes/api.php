@@ -49,9 +49,13 @@ Route::get('/exame/categoria/{id}', 'ExameController@obterCategoriaPorId')->wher
 
 
 Route::get('/medicamento/', 'MedicamentoController@listar');
+Route::get('/medicamento/nome/{nome}', 'MedicamentoController@listarPorNome');
 Route::get('/medicamento/{id}', 'MedicamentoController@obterPorId')->where('id', '[0-9]+');
 Route::get('/medicamento/classe-terapeutica', 'MedicamentoController@listarClassesTerapeuticas');
 Route::get('/medicamento/classe-terapeutica/{codigo}', 'MedicamentoController@listarClassesTerapeuticasPorCodigo');
+
+
+Route::post('/consulta', 'ConsultaController@store');
 
 Route::get('/viacep/{cep}', function($cep){
     $retorno = zipcode($cep);

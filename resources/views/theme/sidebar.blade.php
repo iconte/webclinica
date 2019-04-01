@@ -34,28 +34,13 @@
                     </li>
                 </ul>
             </li>
-            <li>
-                <a href="#"><i class="fa fa-user fa-fw"></i>Usuário</a>
-                <ul class="nav nav-second-level">
-                    <li>
-
-                        <a href="{{ route('novo-usuario') }}"><i class="fa fa-plus fa-fw"></i> Novo</a>
-
-                    </li>
-                    <li>
-
-                        <a href="{{ route('buscar-usuarios') }}"><i class="fa fa-search fa-fw"></i> Busca</a>
-
-                    </li>
-                </ul>
-            </li>
 
             <li>
                 <a href="#"><i class="fa fa-calendar fa-fw"></i>Consultas</a>
                 <ul class="nav nav-second-level">
                     <li>
 
-                        <a href="#"><i class="fa fa-plus fa-fw"></i> Nova Consulta</a>
+                        <a href="{{ route('nova-consulta') }}"><i class="fa fa-plus fa-fw"></i> Nova Consulta</a>
 
                     </li>
                     <li>
