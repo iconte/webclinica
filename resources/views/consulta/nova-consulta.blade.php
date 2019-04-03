@@ -54,6 +54,7 @@
             <div class="col-lg-8">
                 <div class="form-group">
                     <label>Receituário</label>
+                    <input id="med" name="med" class="form-control ">
                     <textarea id="medicamento" name="medicamento" class="form-control " rows="8" cols="8" maxlength="500"></textarea>
                 </div>
             </div>

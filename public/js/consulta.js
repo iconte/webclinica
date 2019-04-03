@@ -15,6 +15,22 @@ $(function () {
             }
         }
     });
+
+        $('#txtCountry').typeahead({
+            source: function (query, result) {
+                $.ajax({
+                    url: "/api/medicamento/nome/"+query,
+                    type: "GET",
+                    success: function (data) {
+                        result($.map(data, function (item) {
+                            return item;
+                        }));
+                    }
+                });
+            }
+        });
+
+
 });
 
 $("#btnSalvarConsulta").click(function (event) {
