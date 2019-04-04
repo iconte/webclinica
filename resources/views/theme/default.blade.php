@@ -62,6 +62,7 @@
     <script src={!! asset('/js/jquery.mask.min.js')!!}></script>
     <script src={!! asset('/js/moment-with-locales.js')!!}></script>
     <script src={!! asset('/js/bootstrap-datetimepicker.min.js')!!}></script>
+    <script src={!! asset('/js/bootstrap3-typeahead.js')!!}></script>
     @hasSection('javascript')
     @yield('javascript')
     @endif

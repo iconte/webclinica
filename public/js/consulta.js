@@ -16,14 +16,18 @@ $(function () {
         }
     });
 
-        $('#txtCountry').typeahead({
+        $('.typeahead').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 4,
             source: function (query, result) {
                 $.ajax({
                     url: "/api/medicamento/nome/"+query,
                     type: "GET",
-                    success: function (data) {
-                        result($.map(data, function (item) {
-                            return item;
+                    success: function (resultado) {
+
+                        result($.map(resultado.data, function (item) {
+                            return item.nome_fabrica+ '<br><small>'+item.apresentacao+'</small>';
                         }));
                     }
                 });
