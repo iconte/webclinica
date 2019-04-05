@@ -42,6 +42,7 @@ Route::delete('/agendamento/{id}', 'AgendamentoController@destroy')->where('id',
 
 
 Route::get('/exame', 'ExameController@listar');
+Route::get('/exame/nome-codsus/{filtro}', 'ExameController@listarPorNomeCodSus');
 Route::get('/exame/{id}', 'ExameController@obterPorId')->where('id', '[0-9]+');
 Route::get('/exame-por-codsus/{codsus}', 'ExameController@obterPorCodSus')->where('codsus', '[0-9]+');
 Route::get('/exame/categoria', 'ExameController@listarCategorias');

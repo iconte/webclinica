@@ -16,7 +16,7 @@ $(function () {
         }
     });
 
-        $('.typeahead').typeahead({
+        $('#med').typeahead({
             hint: true,
             highlight: true,
             minLength: 4,
@@ -27,12 +27,30 @@ $(function () {
                     success: function (resultado) {
 
                         result($.map(resultado.data, function (item) {
-                            return item.nome_fabrica+ '<br><small>'+item.apresentacao+'</small>';
+                            return item.nome_fabrica + ' '+ item.apresentacao;
                         }));
                     }
                 });
             }
         });
+
+    $('#ex').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 4,
+        source: function (query, result) {
+            $.ajax({
+                url: "/api/exame/nome-codsus/"+query,
+                type: "GET",
+                success: function (resultado) {
+
+                    result($.map(resultado.data, function (item) {
+                        return item.cod_sus + ' - '+ item.descricao;
+                    }));
+                }
+            });
+        }
+    });
 
 
 });

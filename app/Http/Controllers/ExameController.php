@@ -17,6 +17,14 @@ class ExameController extends Controller
      *
      * @return Response
      */
+
+    public function listarPorNomeCodSus($nome)
+    {
+        $resultado = Exame::where('descricao', 'like', '%' . $nome . '%')
+            ->orWhere('cod_sus', $nome)->orderBy('descricao')->get();
+        return ExameCollection::collection($resultado);
+    }
+
     public function listar()
     {
         return ExameCollection::collection((Exame::all()));

@@ -45,6 +45,7 @@
             <div class="col-lg-8">
                 <div class="form-group">
                     <label>Exames </label>
+                    <input type="text" id="ex" name="ex" class="form-control typeahead" maxlength="500">
                     <textarea id="exame" name="exame" class="form-control " rows="8" cols="8" maxlength="500"></textarea>
                 </div>
             </div>
