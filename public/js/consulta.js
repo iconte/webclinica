@@ -25,14 +25,22 @@ $(function () {
                     url: "/api/medicamento/nome/"+query,
                     type: "GET",
                     success: function (resultado) {
-
                         result($.map(resultado.data, function (item) {
-                            return item.nome_fabrica + ' '+ item.apresentacao;
+                            //var itm = ''
+                            //+ "<div class='typeahead_wrapper'>"
+                            //+ "<div class='typeahead_labels'>"
+                            //+ "<div class='typeahead_primary'>" + item.nome_fabrica + "</div>"
+                            //+ "<div class='typeahead_secondary'><small>" + item.nome_generico +"</small></div>"
+                            //+ "<div class='typeahead_secondary'><small>" + item.apresentacao+ "</small></div>"
+                            //+ "</div>"
+                            //+ "</div>";
+                            //return itm;
+                            return item.nome_fabrica + ' '+item.apresentacao;
                         }));
-                    }
+                    },
                 });
-            }
-        });
+            },
+        },800);
 
     $('#ex').typeahead({
         hint: true,
@@ -50,7 +58,7 @@ $(function () {
                 }
             });
         }
-    });
+    },800);
 
 
 });
