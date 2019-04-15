@@ -24,6 +24,7 @@ $(function () {
     $('#med').typeahead({
         hint: true,
         highlight: true,
+        minLength: 3,
         source: function (query, result) {
 
             if (timeout) {
