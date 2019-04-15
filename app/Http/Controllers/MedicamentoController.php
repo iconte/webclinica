@@ -14,8 +14,9 @@ class MedicamentoController extends Controller
 
     public function listarPorNome($nome)
     {
-        $resultado = Medicamento::where('nome_generico', 'like', '%' . $nome . '%')
-            ->orWhere('nome_fabrica', 'like', '%' . $nome . '%')->orderBy('nome_fabrica')->get();
+        $nomeLike = isset($nome)? str_replace(' ','%',$nome) : $nome;
+        $resultado = Medicamento::where('nome_generico', 'like', '%' . $nomeLike . '%')
+            ->orWhere('nome_fabrica', 'like', '%' . $nomeLike . '%')->orderBy('nome_fabrica')->get();
         return ExameCollection::collection($resultado);
     }
 
