@@ -24,26 +24,34 @@ $(function () {
     $('#med').typeahead({
         hint: true,
         highlight: true,
-        minLength: 4,
         source: function (query, result) {
-            $.ajax({
-                url: "/api/medicamento/nome/" + query,
-                type: "GET",
-                success: function (resultado) {
-                    result($.map(resultado.data, function (item) {
-                        //var itm = ''
-                        //+ "<div class='typeahead_wrapper'>"
-                        //+ "<div class='typeahead_labels'>"
-                        //+ "<div class='typeahead_primary'>" + item.nome_fabrica + "</div>"
-                        //+ "<div class='typeahead_secondary'><small>" + item.nome_generico +"</small></div>"
-                        //+ "<div class='typeahead_secondary'><small>" + item.apresentacao+ "</small></div>"
-                        //+ "</div>"
-                        //+ "</div>";
-                        //return itm;
-                        return item.nome_fabrica + ' ' + item.apresentacao;
-                    }));
-                }
-            });
+
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+
+            timeout = setTimeout(function() {
+                $.ajax({
+                    url: "/api/medicamento/nome/" + query,
+                    type: "GET",
+                    success: function (resultado) {
+                        result($.map(resultado.data, function (item) {
+                            //var itm = ''
+                            //+ "<div class='typeahead_wrapper'>"
+                            //+ "<div class='typeahead_labels'>"
+                            //+ "<div class='typeahead_primary'>" + item.nome_fabrica + "</div>"
+                            //+ "<div class='typeahead_secondary'><small>" + item.nome_generico +"</small></div>"
+                            //+ "<div class='typeahead_secondary'><small>" + item.apresentacao+ "</small></div>"
+                            //+ "</div>"
+                            //+ "</div>";
+                            //return itm;
+                            return item.nome_fabrica + ' ' + item.apresentacao;
+                        }));
+                    }
+                });
+            }, 300);
+
+
         },
 
     },400);
