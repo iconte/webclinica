@@ -22,15 +22,16 @@ $(function () {
     });
 
     $('#med').typeahead({
-        hint: true,
+        dynamic:true,
+        minLength: 4,
         highlight: true,
         source: function (query, result) {
 
-            if (timeout) {
-                clearTimeout(timeout);
-            }
+            //if (timeout) {
+            //    clearTimeout(timeout);
+            //}
 
-            timeout = setTimeout(function() {
+            //timeout = setTimeout(function() {
                 $.ajax({
                     url: "/api/medicamento/nome/" + query,
                     type: "GET",
@@ -49,12 +50,12 @@ $(function () {
                         }));
                     }
                 });
-            }, 300);
+            //});
 
 
         },
 
-    },400);
+    });
 
     $('#ex').typeahead({
         hint: true,
