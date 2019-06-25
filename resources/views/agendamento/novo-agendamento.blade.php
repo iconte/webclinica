@@ -14,27 +14,6 @@
         <ul></ul>
     </div>
     <form role="form" id="frmNovoAgendamento">
-        <div class="row">
-            <div class='col-lg-4'>
-                <div class="form-group">
-                    <label>Data <span style="color:red">*</span></label>
-                    <div class="input-group ">
-                      <input id="data_agendamento" type='datetime' class="form-control" maxlength="16">
-                         <span class="input-group-addon">
-                            <span class="fa fa-calendar"></span>
-                        </span>
-                     </div>
-                </div>
-            </div>
-        </div>
-        {{--<div class="row">--}}
-            {{--<div class="col-lg-4">--}}
-                {{--<div class="form-group">--}}
-                    {{--<label>Especialidade</label>--}}
-                    {{--<select class="form-control" id="lista_especialidades"></select>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
 
         <div class="row">
             <div class="col-lg-4">
@@ -44,6 +23,44 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="row">
+            <div class='col-lg-4'>
+                <div class="form-group">
+                    <label>Data <span style="color:red">*</span></label>
+                    <div class="input-group">
+                      <input id="data_agendamento" class="form-control" maxlength="16">
+                         <span class="input-group-addon">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-lg-4'>
+                <div class="form-group">
+                    <label>Horários disponíveis <span style="color:red">*</span> </label>
+                    <div class="input-group">
+                        <select class="form-control" id="lista_horarios"></select><img id="loading_horarios" src="/gif/loading.gif"
+                                                                                       style="width: 10%;display: none">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        {{--<div class="row">--}}
+            {{--<div class="col-lg-4">--}}
+                {{--<div class="form-group">--}}
+                    {{--<label>Especialidade</label>--}}
+                    {{--<select class="form-control" id="lista_especialidades"></select>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+
         <div class="row">
             <div class="col-lg-2">
                 <div class="form-group">
@@ -59,7 +76,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="row">
             <div class="col-lg-6">

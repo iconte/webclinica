@@ -90,6 +90,25 @@ class AgendamentoController extends Controller
         }
     }
 
+    public function buscarHorariosDisponiveisPorMedicoData(Request $request)
+    {
+        $parametros = $request;
+        $horariosDisponiveis = array('08:00:00','09:00:00','10:00:00',
+            '11:00:00','13:00:00','14:00:00','15:00:00','16:00:00','17:00:00','18:00:00');
+        $dataFormatada = $parametros['data_agendamento'];
+        $resultado = DB::table("agendamentos")
+            ->where('data_agendamento',$dataFormatada)
+            ->where('medico_id',$parametros['medicoId'])->pluck('hora_agendamento')->toArray();
+        //remover horario encontrado da lista de disponiveis
+        if($resultado){
+            $horariosDisponiveis = array_diff($horariosDisponiveis, $resultado);
+
+        }
+        return $horariosDisponiveis;
+
+    }
+
+
 
 
 

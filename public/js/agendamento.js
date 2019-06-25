@@ -5,8 +5,9 @@ $(function () {
     }
     $('#data_agendamento').datetimepicker({
         locale: moment.locale('pt-BR'),
+        format: 'L',
         daysOfWeekDisabled: [0,6],
-        disabledHours: [0, 1, 2, 3, 4, 5, 6, 19, 20, 21, 22, 23, 24],
+        //disabledHours: [0, 1, 2, 3, 4, 5, 6, 19, 20, 21, 22, 23, 24],
         minDate: moment(),
         icons: {
             time: "fa fa-clock-o",
@@ -49,7 +50,6 @@ $(function () {
             for(var i = 0;i<data.length;i++){
                 $("#lista_especialidades").append('<option value="'+data[i].id+'">'+ data[i].descricao+'</option>');
             }
-
         }
 
     });
@@ -57,7 +57,38 @@ $(function () {
     $("#cpf").blur(buscarPacientePorCpf);
 });
 
+$("#data_agendamento").blur(function(event){
+    var dt_selecionada = $("#data_agendamento").val();
+    var medicoId = $("#lista_medicos").val();
+    if(dt_selecionada && medicoId){
+        dt_selecionada = moment(dt_selecionada,'DD/MM/YYYY');
+        var dataDB = dt_selecionada.format('YYYY-MM-DD');
+        var parametros = {'medicoId': medicoId, 'data_agendamento' :dataDB};
+        $.ajax({
+            type: "GET",
+            url: "/api/agendamento/horario",
+            data: parametros,
+            context: this,
+            beforeSend: function () {
+                $("#loading_horarios").show();
+            },
+            complete: function () {
+                $("#loading_horarios").hide();
+            },
+            success: function (data) {
+                $("#lista_horarios").empty();
+                if(data){
+                    for(var i = 0;i<data.length;i++){
+                        $("#lista_horarios").append('<option value="'+data[i]+'">'+ data[i]+'</option>');
+                    }
+                }
+            }
+        });
+    }
 
+
+
+});
 
 $("#btnBuscarAgendamento").click(function (event) {
     event.preventDefault();
