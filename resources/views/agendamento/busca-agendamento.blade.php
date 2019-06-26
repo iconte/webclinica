@@ -123,11 +123,11 @@
             <input type="hidden" id="editar_id_agendamento">
 
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <label>Data<span style="color:red">*</span></label>
                         <div class="input-group ">
-                            <input id="data_agendamento" type='datetime' class="form-control" maxlength="16">
+                            <input id="editar_data_agendamento" type='datetime' class="form-control" maxlength="16">
                          <span class="input-group-addon">
                             <span class="fa fa-calendar"></span>
                         </span>
@@ -138,7 +138,17 @@
 
 
             <div class="row">
-                <div class="col-lg-2">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Hora<span style="color:red">*</span></label>
+                        <select class="form-control" id="editar_lista_horarios"></select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-4">
                     <div class="form-group">
                         <label>CPF <span style="color:red">*</span></label>
                         <input id="editar_cpf" name="editar_cpf" class="form-control cpf" maxlength="11">
@@ -157,13 +167,13 @@
 
 
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="form-group" style="padding-left: 10px">
-                        <label for="busca_medico" class="control-label col-sm-2">Médico</label>
+                <div class="col-sm-6">
+                    <div class="form-group" >
+                        <label for="busca_medico" class="control-label ">Médico</label>
 
-                        <div class="col-xs-12 col-sm-8">
-                            <select class="form-control" id="editar_lista_medicos"></select>
-                        </div>
+
+                        <select class="form-control" id="editar_lista_medicos"></select>
+
                     </div>
                 </div>
             </div>
@@ -231,13 +241,13 @@
                     content: 'Tem certeza que deseja apagar?',
                     buttons: {
                         confirm: {
-                            text: 'Sim',
+                            text: 'sim',
                             action: function () {
                                 apagarRegistro(row.medico_id);
                             }
                         },
                         cancel: {
-                            text: 'Não',
+                            text: 'não',
                             action: function () {
 
                             }
@@ -251,6 +261,26 @@
         //buscar do banco
         function preencherDadosEditar(dados) {
             $("#editar_id_agendamento").val(dados.id);
+            $('#editar_data_agendamento').datetimepicker({
+                locale: moment.locale('pt-BR'),
+                format: 'L',
+                daysOfWeekDisabled: [0,6],
+                //disabledHours: [0, 1, 2, 3, 4, 5, 6, 19, 20, 21, 22, 23, 24],
+                minDate: moment(),
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                }
+            });
+            //prepara o evento de checagem de datas disponiveis para consulta
+            $("#editar_data_agendamento").blur(function(event){
+                var dt_selecionada = $("#editar_data_agendamento").val();
+                var medicoId = $("#editar_lista_medicos").val();
+                carregarHorariosDisponiveis(event,dt_selecionada, medicoId);
+            });
+            $("#editar_id_agendamento").val(dados.id);
             $("#editar_nome").val(dados.nome);
             if (dados.cpf) {
                 $("#editar_cpf").val(dados.cpf).mask('000.000.000-00');
@@ -258,12 +288,25 @@
             }
 
             if (dados.data_agendamento) {
-                var dtnasc = moment(dados.data_agendamento).locale('pt-BR').format('L');
-                $("#editar_data_agendamento").val(dtnasc);
+                var dtagendamento = moment(dados.data_agendamento).locale('pt-BR').format('L');
+                $("#editar_data_agendamento").val(dtagendamento);
+            }
+            if (dados.hora_agendamento) {
+                var horarios = ['08:00:00','09:00:00','10:00:00','11:00:00','13:00:00','14:00:00','15:00:00','16:00:00','17:00:00','18:00:00'];
+                for(var i = 0;i<horarios.length;i++){
+                    $("#editar_lista_horarios").append('<option value="'+horarios[i]+'">'+ horarios[i].substr(0,5)+'</option>');
+                }
+                $("#editar_lista_horarios").val(dados.hora_agendamento);
             }
 
             if(dados.medico_id){
-                $("#editar_lista_medicos").val(dados.medico_id);
+                $.get('/api/medico',function(resultado){
+                    carregarListaMedico(resultado,'#editar_lista_medicos');
+                }).done(function() {
+                    $("#editar_lista_medicos").val(dados.medico_id);
+                });
+
+
             }
 
         }

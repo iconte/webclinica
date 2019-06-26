@@ -44,6 +44,7 @@ class AgendamentoController extends Controller
             'cpf' => 'required|max:11',
             'medico_id' => 'required',
             'data_agendamento' => 'required',
+            'hora_agendamento' => 'required',
 
         ]);
         if ($validator->fails())
@@ -63,12 +64,41 @@ class AgendamentoController extends Controller
         $agendamento->nome =$request->input('nome');
         $agendamento->cpf =($request->input('cpf'));
         $agendamento->medico_id =($request->input('medico_id'));
-        $dataConv = DateTime::createFromFormat('d/m/Y H:i', $request->input('data_agendamento'));
-        $dataFormatada= $dataConv->format('Y-m-d H:i');
+        $agendamento->hora_agendamento =($request->input('hora_agendamento'));
+        $dataConv = DateTime::createFromFormat('d/m/Y', $request->input('data_agendamento'));
+        $dataFormatada= $dataConv->format('Y-m-d');
         $agendamento->data_agendamento =$dataFormatada;
         $agendamento->save();
         return response()->json(['data' => ['message'=>'Registro salvo com sucesso.']],200);
 
+    }
+
+
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'nome' => 'required',
+            'cpf' => 'required|max:11',
+            'medico_id' => 'required',
+            'data_agendamento' => 'required',
+            'hora_agendamento' => 'required',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+        $id = $request->input('id');
+        $agendamentoEncontrado = Agendamento::where('id',$id)->first();
+        $agendamentoEncontrado->nome = $request->input('nome');
+        $agendamentoEncontrado->cpf = $request->input('cpf');
+        $agendamentoEncontrado->medico_id = $request->input('medico_id');
+        $dataConv = DateTime::createFromFormat('d/m/Y', $request->input('data_agendamento'));
+        $dataFormatada= $dataConv->format('Y-m-d');
+        $agendamentoEncontrado->data_agendamento = $dataFormatada;
+        $agendamentoEncontrado->hora_agendamento = $request->input('hora_agendamento');
+        $agendamentoEncontrado->save();
+        return response()->json(['data' => ['message'=>'Registro salvo com sucesso.']],200);
     }
 
 
@@ -101,7 +131,7 @@ class AgendamentoController extends Controller
             ->where('medico_id',$parametros['medicoId'])->pluck('hora_agendamento')->toArray();
         //remover horario encontrado da lista de disponiveis
         if($resultado){
-            $horariosDisponiveis = array_diff($horariosDisponiveis, $resultado);
+            $horariosDisponiveis= array_values(array_diff($horariosDisponiveis, $resultado));
 
         }
         return $horariosDisponiveis;

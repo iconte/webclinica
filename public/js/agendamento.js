@@ -17,23 +17,9 @@ $(function () {
         }
     });
 
+
     $.get('/api/medico',function(resultado){
-        var data= resultado.data;
-        if(data){
-            data.sort(function(a, b){
-                if(a.pessoa.nome < b.pessoa.nome) { return -1; }
-                if(a.pessoa.nome > b.pessoa.nome) { return 1; }
-                return 0;
-            });
-            $("#lista_medicos").append('<option value="" selected>Selecione</option>');
-
-
-            for(var i = 0;i<data.length;i++){
-                $("#lista_medicos").append('<option value="'+data[i].id+'">'+ data[i].pessoa.nome+'</option>');
-
-            }
-
-        }
+        carregarListaMedico(resultado,'#lista_medicos');
     });
 
     $.get('/api/especialidade',function(resultado){
@@ -57,9 +43,28 @@ $(function () {
     $("#cpf").blur(buscarPacientePorCpf);
 });
 
-$("#data_agendamento").blur(function(event){
-    var dt_selecionada = $("#data_agendamento").val();
-    var medicoId = $("#lista_medicos").val();
+
+function carregarListaMedico(resultado,idCombo){
+    var data= resultado.data;
+    if(data){
+        data.sort(function(a, b){
+            if(a.pessoa.nome < b.pessoa.nome) { return -1; }
+            if(a.pessoa.nome > b.pessoa.nome) { return 1; }
+            return 0;
+        });
+        $(idCombo).append('<option value="" selected>Selecione</option>');
+
+
+        for(var i = 0;i<data.length;i++){
+            $(idCombo).append('<option value="'+data[i].id+'">'+ data[i].pessoa.nome+'</option>');
+
+        }
+
+    }
+}
+
+
+function carregarHorariosDisponiveis(event,dt_selecionada,medicoId){
     if(dt_selecionada && medicoId){
         dt_selecionada = moment(dt_selecionada,'DD/MM/YYYY');
         var dataDB = dt_selecionada.format('YYYY-MM-DD');
@@ -79,15 +84,19 @@ $("#data_agendamento").blur(function(event){
                 $("#lista_horarios").empty();
                 if(data){
                     for(var i = 0;i<data.length;i++){
-                        $("#lista_horarios").append('<option value="'+data[i]+'">'+ data[i]+'</option>');
+                        $("#lista_horarios").append('<option value="'+data[i]+'">'+ data[i].substr(0,5)+'</option>');
                     }
                 }
             }
         });
     }
+}
 
 
-
+$("#data_agendamento").blur(function(event){
+    var dt_selecionada = $("#data_agendamento").val();
+    var medicoId = $("#lista_medicos").val();
+    carregarHorariosDisponiveis(event,dt_selecionada,medicoId);
 });
 
 $("#btnBuscarAgendamento").click(function (event) {
@@ -138,6 +147,7 @@ $("#btnSalvarAgendamento").click(function (event) {
         'nome': $("#nome").val(),
         'cpf': $(".cpf").cleanVal(),
         'data_agendamento': $("#data_agendamento").val(),
+        'hora_agendamento': $("#lista_horarios").val(),
         'medico_id': $("#lista_medicos").val()
     };
     $.ajax({
@@ -173,6 +183,53 @@ $("#btnSalvarAgendamento").click(function (event) {
         }
     });
 });
+
+
+$("#btnAtualizarAgendamento").click(function (event) {
+    event.preventDefault();
+    var dados_agendamento = {
+        'id': $("#editar_id_agendamento").val(),
+        'nome': $("#editar_nome").val(),
+        'cpf': $(".cpf").cleanVal(),
+        'data_agendamento': $("#editar_data_agendamento").val(),
+        'hora_agendamento': $("#editar_lista_horarios").val(),
+        'medico_id': $("#editar_lista_medicos").val()
+    };
+    $.ajax({
+        type: "PUT",
+        url: "/api/agendamento",
+        data: dados_agendamento,
+        context: this,
+        beforeSend: function () {
+            $("#salvar").hide();
+            $("#salvando").show();
+        },
+        complete: function () {
+            $("#salvando").hide();
+            $("#salvar").show();
+        },
+        success: function (data) {
+
+            if(data){
+                if(data.errors){
+                    msgValidacao(data.errors);
+                    return;
+                }
+                $('#frmEditarAgendamento')[0].reset();
+                limparMsgValidacao();
+                toastr.info('Registro atualizado com sucesso.');
+            }
+        },
+        error: function (error) {
+            var text = JSON.parse(error.responseText);
+            $("#salvando").hide();
+            $("#salvar").show();
+            msgErro(text.message);
+        }
+    });
+});
+
+
 
 function exibirResultadoPesquisa() {
     $('#sem_resultado').hide();
