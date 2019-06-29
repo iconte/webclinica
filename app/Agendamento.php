@@ -12,4 +12,9 @@ class Agendamento extends Model
         return  $this->belongsTo('App\Medico');
 
     }
+
+    function pessoa(){
+        return  $this->belongsTo('App\Pessoa');
+
+    }
 }

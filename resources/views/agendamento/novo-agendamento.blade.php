@@ -18,6 +18,15 @@
         <div class="row">
             <div class="col-xs-12 col-lg-4">
                 <div class="form-group">
+                    <label>Especialidade</label>
+                    <select class="form-control" id="lista_especialidades"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-lg-4">
+                <div class="form-group">
                     <label>Médico</label>
                     <select class="form-control" id="lista_medicos"></select>
                 </div>

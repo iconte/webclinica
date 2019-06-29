@@ -92,9 +92,9 @@
                         <tr>
                             <th data-field="data_agendamento" data-formatter="dateFormatter">Data</th>
 
-                            <th data-field="cpf" data-formatter="cpfFormatter">CPF</th>
+                            <th data-field="hora_agendamento" >Hora</th>
 
-                            <th data-field="nome">Nome</th>
+                            <th data-field="pessoa" data-formatter="pessoaFormatter">Paciente</th>
 
                             <th data-field="medico" data-formatter="medicoFormatter">Medico</th>
 
@@ -222,6 +222,13 @@
                 return;
             }
         }
+        function pessoaFormatter(value) {
+            if (value) {
+                return value.nome;
+            } else {
+                return;
+            }
+        }
 
         function actionFormatter(value) {
             return [
@@ -281,9 +288,9 @@
                 carregarHorariosDisponiveis(event,dt_selecionada, medicoId);
             });
             $("#editar_id_agendamento").val(dados.id);
-            $("#editar_nome").val(dados.nome);
-            if (dados.cpf) {
-                $("#editar_cpf").val(dados.cpf).mask('000.000.000-00');
+            $("#editar_nome").val(dados.pessoa.nome);
+            if (dados.pessoa && dados.pessoa.cpf) {
+                $("#editar_cpf").val(dados.pessoa.cpf).mask('000.000.000-00');
                 $("#editar_cpf").trigger({type: 'keypress', which: 32, keyCode: 32});
             }
 

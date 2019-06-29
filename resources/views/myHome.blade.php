@@ -8,6 +8,9 @@
 
             <h1 class="page-header">WEB CLINICA </h1>
 
+            @if(Auth::check())
+                <span style="color:red">{{Auth::user()->tipo_usuario}}</span>
+            @endif
         </div>
 
         <!-- /.col-lg-12 -->

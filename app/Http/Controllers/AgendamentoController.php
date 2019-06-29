@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Agendamento;
 use App\Medico;
+use App\Pessoa;
 use DateTime;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +25,8 @@ class AgendamentoController extends Controller
             $dataConv = DateTime::createFromFormat('d/m/Y', $data);
             $data = $dataConv->format('Y-m-d');
         }
-        $retorno  = Agendamento::with('medico.pessoa')
+        $retorno  = Agendamento::with(['medico.pessoa','pessoa'])
+            ->join('pessoas','agendamentos.pessoa_id','=','pessoas.id')
             ->when($nome, function ($query) use ($nome) {
                 return $query->where('nome','like' ,'%'.$nome.'%');
             })
@@ -53,6 +56,8 @@ class AgendamentoController extends Controller
         }
 
         $cpf= $request->input('cpf');
+        $pessoaEncontrada =  Pessoa::all()
+            ->where('cpf', $cpf)->first();
         $medicoId= $request->input('medico_id');
         $medico = Medico::with('pessoa')->find($medicoId);
         if(isset($medico)){
@@ -61,14 +66,29 @@ class AgendamentoController extends Controller
             }
         }
         $agendamento = new Agendamento();
-        $agendamento->nome =$request->input('nome');
-        $agendamento->cpf =($request->input('cpf'));
         $agendamento->medico_id =($request->input('medico_id'));
         $agendamento->hora_agendamento =($request->input('hora_agendamento'));
         $dataConv = DateTime::createFromFormat('d/m/Y', $request->input('data_agendamento'));
         $dataFormatada= $dataConv->format('Y-m-d');
         $agendamento->data_agendamento =$dataFormatada;
-        $agendamento->save();
+        try{
+            DB::beginTransaction(); //marcador para iniciar transações
+            if(!$pessoaEncontrada){
+                $pessoaEncontrada = new Pessoa();
+                $pessoaEncontrada->nome =$request->input('nome');
+                $pessoaEncontrada->cpf =$request->input('cpf');
+                $pessoaEncontrada->save();
+            }
+            $agendamento->pessoa_id = $pessoaEncontrada->id;
+            $agendamento->save();
+            DB::commit(); //validar as transações
+        }catch(Exception $e){
+            DB::rollback(); //reverter tudo, caso tenha acontecido algum erro.
+        }
+
+
+
+
         return response()->json(['data' => ['message'=>'Registro salvo com sucesso.']],200);
 
     }
@@ -120,7 +140,7 @@ class AgendamentoController extends Controller
         }
     }
 
-    public function buscarHorariosDisponiveisPorMedicoData(Request $request)
+    public function listarHorariosDisponiveisPorMedicoData(Request $request)
     {
         $parametros = $request;
         $horariosDisponiveis = array('08:00:00','09:00:00','10:00:00',

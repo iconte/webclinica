@@ -7,7 +7,19 @@ $(function () {
         locale: moment.locale('pt-BR'),
         format: 'L',
         daysOfWeekDisabled: [0,6],
-        //disabledHours: [0, 1, 2, 3, 4, 5, 6, 19, 20, 21, 22, 23, 24],
+        minDate: moment(),
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down"
+        }
+    });
+
+    $('#data_agendamento_busca').datetimepicker({
+        locale: moment.locale('pt-BR'),
+        format: 'L',
+        daysOfWeekDisabled: [0,6],
         minDate: moment(),
         icons: {
             time: "fa fa-clock-o",
@@ -89,6 +101,8 @@ function carregarHorariosDisponiveis(event,dt_selecionada,medicoId){
                 }
             }
         });
+    }else{
+        $("#lista_horarios").empty();
     }
 }
 
@@ -217,7 +231,10 @@ $("#btnAtualizarAgendamento").click(function (event) {
                 }
                 $('#frmEditarAgendamento')[0].reset();
                 limparMsgValidacao();
+                $('.busca').fadeIn();
+                $('.edicao').fadeOut();
                 toastr.info('Registro atualizado com sucesso.');
+
             }
         },
         error: function (error) {

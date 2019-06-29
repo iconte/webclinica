@@ -16,35 +16,12 @@
 
 </div>
 
-<!-- /.navbar-header -->
-
-
-
 <ul class="nav navbar-top-links navbar-right">
 
     @if(Auth::check())
-    <li class="dropdown">
 
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-
-             <i class="fa fa-user fa-fw"></i> {{  Auth::user()->name }}  <i class="fa fa-caret-down"></i>
-
-        </a>
-
-        <ul class="dropdown-menu dropdown-user">
-
-            <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
-
-            </li>
-
-        </ul>
-
-        <!-- /.dropdown-user -->
-
-    </li>
+        <li><i class="fa fa-user fa-fw"></i> {{  Auth::user()->name }}</li>
+        <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out fa-fw"></i> sair</a></li>
     @endif
-    <!-- /.dropdown -->
 
 </ul>
-
-<!-- /.navbar-top-links -->
