@@ -27,11 +27,6 @@ $(function () {
         highlight: true,
         source: function (query, result) {
 
-            //if (timeout) {
-            //    clearTimeout(timeout);
-            //}
-
-            //timeout = setTimeout(function() {
                 $.ajax({
                     url: "/api/medicamento/nome/" + query,
                     type: "GET",
@@ -50,9 +45,6 @@ $(function () {
                         }));
                     }
                 });
-            //});
-
-
         },
 
     });
@@ -78,13 +70,34 @@ $(function () {
 
 });
 
+$("#btnIncluirExame").click(function (event) {
+    var exameTxt =$("#exame").val();
+    var input = $("#ex").val();
+    if(input){
+        exameTxt += input+"\n";
+        $("#exame").val(exameTxt);
+        $("#ex").val("");
+    }
+});
+
+$("#btnIncluirMedicamento").click(function (event) {
+    var medTxt =$("#medicamento").val();
+    var input = $("#med").val();
+    if(input){
+        medTxt += input+"\n";
+        $("#medicamento").val(medTxt);
+        $("#med").val("");
+    }
+});
+
 $("#btnSalvarConsulta").click(function (event) {
     event.preventDefault();
     var dados_consulta = {
         'nome': $("#nome").val(),
         'medicamento': $("#medicamento").val(),
         'exame': $("#exame").val(),
-        'medico_id': $("#lista_medicos").val()
+        'medico_id': $("#lista_medicos").val(),
+        'anamnese': $("#anamnese").val()
     };
     $.ajax({
         type: "POST",

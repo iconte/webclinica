@@ -46,7 +46,14 @@
                 <div class="form-group">
                     <label>Exames </label>
                     <input type="text" id="ex" name="ex" class="form-control typeahead" maxlength="500">
-                    <textarea id="exame" name="exame" class="form-control " rows="8" cols="8" maxlength="500"></textarea>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="form-group">
+                    <a href="#" id="btnIncluirExame" class="btn btn-primary col-xs-12 col-sm-4"
+                            style="margin-bottom:5px;">
+                        <i class="fa fa-plus"></i> <span> Incluir</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -54,15 +61,40 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="form-group">
+                    <textarea id="exame" name="exame" class="form-control " rows="8" cols="8" maxlength="500"></textarea>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="form-group">
                     <label>Receituário</label>
                     <input id="med" name="med" class="form-control typeahead">
-                    <textarea id="medicamento" name="medicamento" class="form-control " rows="8" cols="8" maxlength="500"></textarea>
+
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="form-group">
+                    <a href="#" id="btnIncluirMedicamento"  class="btn btn-primary col-xs-12 col-sm-4"
+                            style="margin-bottom:5px;">
+                        <i class="fa fa-plus"></i> <span> Incluir</span>
+                    </a>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-8">
+                <div class="form-group">
+                        <textarea id="medicamento" name="medicamento" class="form-control " rows="8" cols="8" maxlength="500"></textarea>
+                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
                 <div class="form-group">
                     <button id="btnSalvarConsulta" class="btn btn-primary col-xs-12 col-sm-3"
                             style="margin-bottom:5px;">

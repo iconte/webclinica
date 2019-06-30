@@ -39,7 +39,7 @@
                             <label for="busca_medico" class="control-label col-sm-2">Médico</label>
 
                             <div class="col-xs-12 col-sm-6">
-                                <select class="form-control" id="lista_medicos"></select>
+                                <select class="form-control" id="busca_lista_medico"></select>
                             </div>
                         </div>
                     </div>
@@ -49,8 +49,14 @@
                             <label for="busca_paciente" class="control-label col-sm-2">Paciente</label>
 
                             <div class="col-xs-12 col-sm-8">
-                                <input id="busca_nome" type='text' class="form-control" maxlength="20">
+                                @if(Auth::user()->tipo_usuario == 'usr')
+                                    <input id="busca_nome_ro" type='text' class="form-control busca_nome" maxlength="20" readonly value="{{Auth::user()->pessoa->nome}}">
+                                @else
+                                    <input id="busca_nome" type='text' class="form-control busca_nome" maxlength="20" >
+                                @endif
+
                             </div>
+
                         </div>
                     </div>
 
@@ -60,7 +66,7 @@
                             <label class="control-label col-sm-2"></label>
 
                             <div class="col-xs-12 col-sm-8">
-                                <button class="btn btn-primary col-xs-12 col-sm-3" id="btnBuscarAgendamento">
+                                <button class="btn btn-primary col-xs-12 col-sm-4" id="btnBuscarAgendamento">
                                     <span id="buscar"><i class="fa fa-search"></i> Buscar</span>
                                     <span id="buscando" style="display: none;">Buscando...</span>
                                 </button>
@@ -94,9 +100,9 @@
 
                             <th data-field="hora_agendamento" >Hora</th>
 
-                            <th data-field="pessoa" data-formatter="pessoaFormatter">Paciente</th>
+                            <th data-field="pessoa" data-formatter="pessoaFormatter"> Paciente</th>
 
-                            <th data-field="medico" data-formatter="medicoFormatter">Medico</th>
+                            <th data-field="nome"> Medico</th>
 
                             <th data-field="#" data-formatter="actionFormatter" data-events="commonEvents">#</th>
 
@@ -151,7 +157,9 @@
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label>CPF <span style="color:red">*</span></label>
-                        <input id="editar_cpf" name="editar_cpf" class="form-control cpf" maxlength="11">
+                        <input id="editar_cpf" name="editar_cpf" class="form-control cpf"
+                               @if(Auth::user()->tipo_usuario == 'usr') readonly   @endif
+                               maxlength="11">
                     </div>
                 </div>
             </div>
@@ -159,7 +167,7 @@
                 <div class="col-lg-8">
                     <div class="form-group">
                         <label>Nome<span style="color:red">*</span></label>
-                        <input id="editar_nome" name="editar_nome" class="form-control">
+                        <input id="editar_nome" name="editar_nome" class="form-control" @if(Auth::user()->tipo_usuario == 'usr') readonly   @endif>
                     </div>
                 </div>
 
@@ -215,13 +223,13 @@
                 return;
             }
         }
-        function medicoFormatter(value) {
-            if (value) {
-                return value.pessoa.nome;
-            } else {
-                return;
-            }
-        }
+//        function medicoFormatter(value) {
+//            if (value) {
+//                return value.pessoa.nome;
+//            } else {
+//                return;
+//            }
+//        }
         function pessoaFormatter(value) {
             if (value) {
                 return value.nome;
@@ -267,7 +275,7 @@
 
         //buscar do banco
         function preencherDadosEditar(dados) {
-            $("#editar_id_agendamento").val(dados.id);
+            $("#editar_id_agendamento").val(dados.id_agendamento);
             $('#editar_data_agendamento').datetimepicker({
                 locale: moment.locale('pt-BR'),
                 format: 'L',
@@ -287,7 +295,7 @@
                 var medicoId = $("#editar_lista_medicos").val();
                 carregarHorariosDisponiveis(event,dt_selecionada, medicoId);
             });
-            $("#editar_id_agendamento").val(dados.id);
+            $("#editar_id_agendamento").val(dados.id_agendamento);
             $("#editar_nome").val(dados.pessoa.nome);
             if (dados.pessoa && dados.pessoa.cpf) {
                 $("#editar_cpf").val(dados.pessoa.cpf).mask('000.000.000-00');

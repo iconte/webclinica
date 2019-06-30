@@ -25,17 +25,16 @@ class AgendamentoController extends Controller
             $dataConv = DateTime::createFromFormat('d/m/Y', $data);
             $data = $dataConv->format('Y-m-d');
         }
-        $retorno  = Agendamento::with(['medico.pessoa','pessoa'])
-            ->join('pessoas','agendamentos.pessoa_id','=','pessoas.id')
-            ->when($nome, function ($query) use ($nome) {
-                return $query->where('nome','like' ,'%'.$nome.'%');
-            })
+        $retorno  = Agendamento::with(['pessoa' => function ($query) use ($nome) {
+            $query->where('nome', 'like', '%'.$nome .'%');
+        }])
             ->when($medico_id, function ($query) use ($medico_id) {
                 return $query->whereRaw('medico_id = '.$medico_id);
             })
             ->when($data, function ($query) use ($data) {
                 return $query->whereRaw(DB::raw("date(data_agendamento) = '".$data."'"));
-            })->get();
+            })
+            ->get();
 
         return response()->json(['data' => $retorno],200);
 

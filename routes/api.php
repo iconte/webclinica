@@ -32,6 +32,7 @@ Route::post('/medico', 'MedicoController@store');
 Route::get('/medico', 'MedicoController@listar');
 Route::get('/medico/filtro', 'MedicoController@listarComFiltro');
 Route::get('/medico/{id}', 'MedicoController@obterPorId')->where('id', '[0-9]+');
+Route::get('/medico/nome-por-id/{id}', 'MedicoController@obterNomePorId')->where('id', '[0-9]+');
 Route::put('/medico', 'MedicoController@update');
 Route::delete('/medico/{id}', 'MedicoController@destroy')->where('id', '[0-9]+');
 Route::get('/medico/especialidade/{id}', 'MedicoController@listarPorEspecialidade')->where('id', '[0-9]+');
@@ -54,7 +55,7 @@ Route::get('/exame/categoria/{id}', 'ExameController@obterCategoriaPorId')->wher
 
 Route::get('/medicamento', 'MedicamentoController@listar');
 Route::get('/medicamento/nome/{nome}', 'MedicamentoController@listarPorNome');
-Route::get('/medicamento/{id}', 'MedicamentoController@obterPorId')->where('id', '[0-9]+');
+Route::get('/medicamento/nome-por-id/{id}', 'MedicamentoController@obterNomePorId')->where('id', '[0-9]+');
 Route::get('/medicamento/classe-terapeutica', 'MedicamentoController@listarClassesTerapeuticas');
 Route::get('/medicamento/classe-terapeutica/{codigo}', 'MedicamentoController@listarClassesTerapeuticasPorCodigo');
 

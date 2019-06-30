@@ -1,8 +1,16 @@
-@extends('layouts.app')
+@extends('theme.default')
 
-@section('content')
-<div class="container">
+@section('titulo')
     <div class="row">
+        <div class="col-lg-12">
+            <h4>Novo usuario</h4>
+            <hr/>
+        </div>
+    </div>
+
+@endsection
+@section('content')
+   <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
@@ -73,5 +81,4 @@
             </div>
         </div>
     </div>
-</div>
 @endsection

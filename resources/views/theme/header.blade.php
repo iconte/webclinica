@@ -20,8 +20,12 @@
 
     @if(Auth::check())
 
+        @if(Auth::user()->tipo_usuario == 'med' || Auth::user()->tipo_usuario =='adm')
+            <li><a href="{{ route('register') }}"><i class="fa fa-users fa-fw"></i> usuarios do sistema </a></li>
+        @endif
         <li><i class="fa fa-user fa-fw"></i> {{  Auth::user()->name }}</li>
         <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out fa-fw"></i> sair</a></li>
+
     @endif
 
 </ul>

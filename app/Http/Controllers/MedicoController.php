@@ -108,6 +108,17 @@ class MedicoController extends Controller
 
     }
 
+    public function obterNomePorId($id)
+    {
+        $retorno = Medico::with('pessoa:nome')->find($id);
+        if($retorno){
+            return response()->json($retorno, 204);
+        }else{
+            return response()->json(['error' => 'Nenhum resultado encontrado'], 204);
+        }
+
+    }
+
     public function listarPorEspecialidade($especialidadeId)
     {
         $retorno = Medico::with(['pessoa','especialidade'])->where('especialidade_id','=',$especialidadeId)->get();

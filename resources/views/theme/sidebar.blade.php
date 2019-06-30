@@ -41,7 +41,7 @@
                 @endif
 
                 <li>
-                    <a href="#"><i class="fa fa-calendar fa-fw"></i>Consultas</a>
+                    <a href="#"><i class="fa fa-user-md fa-fw"></i>Consultas</a>
                     <ul class="nav nav-second-level">
                         @if(Auth::user()->tipo_usuario == 'med' || Auth::user()->tipo_usuario =='adm')
                             <li>
@@ -50,18 +50,30 @@
 
                             </li>
                         @endif
-                        <li>
-
-                            <a href="{{ route('novo-agendamento') }}"><i class="fa fa-plus fa-fw"></i> Novo Agendamento</a>
-
-                        </li>
-                        <li>
-
-                            <a href="{{ route('buscar-agendamentos') }}"><i class="fa fa-search fa-fw"></i> Busca</a>
-
-                        </li>
                     </ul>
                 </li>
+                    <li>
+                        <a href="#"><i class="fa fa-calendar fa-fw"></i>Agendamentos</a>
+                        <ul class="nav nav-second-level">
+                            <li>
+
+                                <a href="{{ route('novo-agendamento') }}"><i class="fa fa-plus fa-fw"></i> Novo Agendamento</a>
+
+                            </li>
+                            <li>
+
+                                <a href="{{ route('buscar-agendamentos') }}"><i class="fa fa-search fa-fw"></i>
+                                   @if(Auth::user()->tipo_usuario == 'usr')
+                                        Meus agendamentos
+                                   @else
+                                        Busca
+                                   @endif
+                                </a>
+
+                            </li>
+                        </ul>
+                    </li>
+
             @endif
         </ul>
 

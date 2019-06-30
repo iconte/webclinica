@@ -30,9 +30,9 @@ $(function () {
     });
 
 
-    //$.get('/api/medico',function(resultado){
-    //    carregarListaMedico(resultado,'#lista_medicos');
-    //});
+    $.get('/api/medico',function(resultado){
+        carregarListaMedico(resultado,'#busca_lista_medico');
+    });
 
     $.get('/api/especialidade',function(resultado){
 
@@ -97,10 +97,12 @@ function carregarHorariosDisponiveis(event,dt_selecionada,medicoId){
             },
             success: function (data) {
                 $("#lista_horarios").empty();
-                if(data){
+                if(data && data.length > 0){
                     for(var i = 0;i<data.length;i++){
                         $("#lista_horarios").append('<option value="'+data[i]+'">'+ data[i].substr(0,5)+'</option>');
                     }
+                }else {
+                    $("#lista_horarios").append('<option value="">Nenhum horário disponível</option>');
                 }
             }
         });
@@ -123,6 +125,12 @@ $("#lista_especialidades").change(function(event){
             type: "GET",
             url: "/api/medico/especialidade/"+esp_selecionada,
             context: this,
+            beforeSend: function () {
+                $("#loading_medicos").show();
+            },
+            complete: function () {
+                $("#loading_medicos").hide();
+            },
             success: function (data) {
                 $("#lista_medicos").empty();
                 if(data){
@@ -145,7 +153,7 @@ $("#btnBuscarAgendamento").click(function (event) {
     event.preventDefault();
 
     var busca_agendamento = {
-        nome: $("#busca_nome").val(),
+        nome: $(".busca_nome").val(),
         data_agendamento: $("#data_agendamento_busca").val(),
         medico_id: $("#lista_medicos").val()
     };
@@ -167,6 +175,16 @@ $("#btnBuscarAgendamento").click(function (event) {
             var $table = $('#resultado_busca');
             if (resultado) {
                 var agendamentos = resultado.data;
+                var myOpts = document.getElementById('busca_lista_medico').options;
+                for(var i=0;i<agendamentos.length;i++){
+                    for(var j=0;j<myOpts.length;j++){
+                        if("Selecione"!=myOpts[j].text){
+                            if(agendamentos[i].medico_id == myOpts[j].value){
+                                agendamentos[i].nome =myOpts[j].text;
+                            }
+                        }
+                    }
+                }
                 $table.bootstrapTable('destroy');
                 $table.bootstrapTable({data: agendamentos});
                 exibirResultadoPesquisa();
@@ -186,7 +204,7 @@ $("#btnBuscarAgendamento").click(function (event) {
 $("#btnSalvarAgendamento").click(function (event) {
     event.preventDefault();
     var dados_agendamento = {
-        'nome': $("#nome").val(),
+        'nome': $(".nome").val(),
         'cpf': $(".cpf").cleanVal(),
         'data_agendamento': $("#data_agendamento").val(),
         'hora_agendamento': $("#lista_horarios").val(),
@@ -213,6 +231,7 @@ $("#btnSalvarAgendamento").click(function (event) {
                     return;
                 }
                 $('#frmNovoAgendamento')[0].reset();
+                $("#lista_horarios").empty();
                 limparMsgValidacao();
                 toastr.info('Registro salvo com sucesso.');
             }
