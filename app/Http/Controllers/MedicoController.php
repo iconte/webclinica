@@ -43,40 +43,86 @@ class MedicoController extends Controller
         return ExameCollection::collection(Medico::with('pessoa')->get());
     }
 
+//    public function listarComFiltro(Request $request)
+//    {
+//        $parametros = $request;
+//        $nome = $parametros['nome'];
+//        $cpf = $parametros['cpf'];
+//        $crm = $parametros['crm'];
+//        $retorno  = DB::table('medicos')
+//            ->select('medicos.id AS medico_id', 'medicos.crm1', 'medicos.crm2','medicos.especialidade_id', 'pessoas.id as pid', 'pessoas.nome',
+//            'pessoas.sexo', 'pessoas.endereco', 'pessoas.tel_res', 'pessoas.tel_cel', 'pessoas.data_nasc','pessoas.cpf',
+//             'pessoas.cep', 'pessoas.email','pessoas.numero', 'pessoas.complemento','pessoas.bairro', 'pessoas.cidade',
+//             'pessoas.uf')
+//            ->join('pessoas', function ($join) use ($nome, $cpf) {
+//                $join->on('medicos.pessoa_id', '=', 'pessoas.id')
+//                    ->when($nome,function($query)use ($nome){
+//                        return $query->where('pessoas.nome','like','%'.$nome.'%');
+//                    })
+//                ->when($cpf,function($query)use ($cpf){
+//                    return $query->where('pessoas.cpf',$cpf);
+//                });
+//            })->when($crm, function ($query) use ($crm) {
+//                return $query->where('crm1', $crm);
+//            })->get();
+//
+//        return response()->json($retorno);
+//    }
+
     public function listarComFiltro(Request $request)
     {
         $parametros = $request;
         $nome = $parametros['nome'];
-        $cpf = $parametros['cpf'];
+        $especialidadeId = $parametros['especialidade_id'];
         $crm = $parametros['crm'];
-        $retorno  = DB::table('medicos')
-            ->select('medicos.id AS medico_id', 'medicos.crm1', 'medicos.crm2', 'pessoas.id as pid', 'pessoas.nome',
-            'pessoas.sexo', 'pessoas.endereco', 'pessoas.tel_res', 'pessoas.tel_cel', 'pessoas.data_nasc','pessoas.cpf',
-             'pessoas.cep', 'pessoas.email','pessoas.numero', 'pessoas.complemento','pessoas.bairro', 'pessoas.cidade',
-             'pessoas.uf')
-            ->join('pessoas', function ($join) use ($nome, $cpf) {
-                $join->on('medicos.pessoa_id', '=', 'pessoas.id')
-                    ->when($nome,function($query)use ($nome){
-                        return $query->where('pessoas.nome','like','%'.$nome.'%');
-                    })
-                ->when($cpf,function($query)use ($cpf){
-                    return $query->where('pessoas.cpf',$cpf);
-                });
-            })->when($crm, function ($query) use ($crm) {
+        $cpf = $parametros['cpf'];
+
+        $retorno  = Medico::with(['pessoa','especialidade'])
+            ->join('pessoas','medicos.pessoa_id','=','pessoas.id')
+            ->when($nome, function ($query) use ($nome) {
+                return $query->where('nome','like' ,'%'.$nome.'%');
+            })
+            ->when($cpf,function($query)use ($cpf){
+                    return $query->where('cpf',$cpf);
+             })
+            ->when($especialidadeId, function ($query) use ($especialidadeId) {
+                return $query->where('especialidade_id', $especialidadeId);
+            })
+            ->when($crm, function ($query) use ($crm) {
                 return $query->where('crm1', $crm);
             })->get();
 
-        return response()->json($retorno);
+        return response()->json(['data' => $retorno],200);
     }
+
+
 
     public function obterPorId($id)
     {
-        $retorno = Medico::with('pessoa')->find($id);
+        $retorno = Medico::with(['pessoa','especialidade'])->find($id);
         if($retorno){
             return new ExameResource($retorno);
         }else{
             return response()->json(['error' => 'Nenhum resultado encontrado'], 204);
         }
+
+    }
+
+    public function listarPorEspecialidade($especialidadeId)
+    {
+        $retorno = Medico::with(['pessoa','especialidade'])->where('especialidade_id','=',$especialidadeId)->get();
+        return response()->json(['data'=>$retorno]);
+
+//        $retorno = DB::table('medicos')
+//            ->join('pessoas', 'medicos.pessoa_id', '=', 'pessoas.id')
+//            ->join('especialidades', 'medicos.especialidade_id', '=', 'especialidades.id')
+//            ->select('medico.id','especialidade.descricao', 'pessoas.nome')
+//            ->get();
+//        if($retorno){
+//            return new ExameResource($retorno);
+//        }else{
+//            return response()->json(['error' => 'Nenhum resultado encontrado'], 204);
+//        }
 
     }
 
@@ -92,7 +138,8 @@ class MedicoController extends Controller
             'endereco' => 'required',
             'numero' => 'required',
             'bairro' => 'required',
-            'cidade' => 'required'
+            'cidade' => 'required',
+            'especialidade_id' => 'required'
         ]);
         if ($validator->fails())
         {
@@ -114,6 +161,7 @@ class MedicoController extends Controller
             $medico= new Medico();
             $medico->crm1 = $request->input('crm1');
             $medico->crm2 = $request->input('crm2');
+            $medico->especialidade_id = $request->input('especialidade_id');
             $medico->pessoa_id = $pessoa->id;
             $medico->save();
             DB::commit();
@@ -135,7 +183,8 @@ class MedicoController extends Controller
             'numero' => 'required',
             'bairro' => 'required',
             'cidade' => 'required',
-            'id' => 'required'
+            'id' => 'required',
+            'especialidade_id' => 'required'
         ]);
         if ($validator->fails())
         {
@@ -163,6 +212,7 @@ class MedicoController extends Controller
             $pessoa->save();
             $medico->crm1 = $request->input('crm1');
             $medico->crm2 = $request->input('crm2');
+            $medico->especialidade_id = $request->input('especialidade_id');
             $medico->pessoa_id = $pessoa->id;
             $medico->save();
             DB::commit();

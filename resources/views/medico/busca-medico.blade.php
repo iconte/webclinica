@@ -35,6 +35,16 @@
 
                     <div class="col-lg-8">
                         <div class="form-group" style="padding-left: 10px">
+                            <label for="busca_lista_especialidades"  class="control-label col-sm-2">Especialidade</label>
+
+                            <div class="col-xs-12 col-sm-4">
+                                <select class="form-control" id="busca_lista_especialidades"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8">
+                        <div class="form-group" style="padding-left: 10px">
                             <label for="busca_cpf"  class="control-label col-sm-2">CPF</label>
 
                             <div class="col-xs-12 col-sm-3">
@@ -42,6 +52,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <div class="col-lg-8">
                         <div class="form-group" style="padding-left: 10px">
@@ -135,6 +146,14 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-lg-4">
+                    <div class="form-group">
+                        <label>Especialidade</label>
+                        <select class="form-control" id="editar_lista_especialidades"></select>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-8">
@@ -313,6 +332,10 @@
             $("#editar_id_medico").val(dados.medico_id);
             $("#editar_pessoa_id").val(dados.pid);
             $("#editar_crm").val(dados.crm1);
+            $.get('/api/especialidade',function(resultado){
+                preencherListaEspecialidade(resultado,"#editar_lista_especialidades");
+                $("#editar_lista_especialidades").val(dados.especialidade_id);
+            });
             $("#editar_crm2").val(dados.crm2);
                 $("#editar_nome").val(dados.nome);
                 if(dados.cpf){

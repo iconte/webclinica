@@ -30,6 +30,14 @@
 
         </div>
         <div class="row">
+            <div class="col-xs-12 col-lg-4">
+                <div class="form-group">
+                    <label>Especialidade</label>
+                    <select class="form-control" id="lista_especialidades"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-2">
                 <div class="form-group">
                     <label>CPF <span style="color:red">*</span><img id="loading_cpf" src="/gif/loading.gif" style="width: 25%;display: none"/></label>

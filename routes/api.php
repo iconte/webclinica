@@ -34,6 +34,7 @@ Route::get('/medico/filtro', 'MedicoController@listarComFiltro');
 Route::get('/medico/{id}', 'MedicoController@obterPorId')->where('id', '[0-9]+');
 Route::put('/medico', 'MedicoController@update');
 Route::delete('/medico/{id}', 'MedicoController@destroy')->where('id', '[0-9]+');
+Route::get('/medico/especialidade/{id}', 'MedicoController@listarPorEspecialidade')->where('id', '[0-9]+');
 
 
 Route::post('/agendamento', 'AgendamentoController@store');

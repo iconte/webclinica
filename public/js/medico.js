@@ -12,7 +12,8 @@ var camposNovo = {
     numero: '#numero',
     bairro: '#bairro',
     cidade: '#cidade',
-    uf:   '#uf'
+    uf:'#uf',
+    especialidade_id:'#lista_especialidades'
 };
 
 $('.campoBusca').keypress(function (e) {
@@ -27,6 +28,11 @@ $(function () {
         return tratarBuscaCpf(camposNovo)
     };
     $('#cpf').blur(tratarBuscaCpfNovo);
+    $.get('/api/especialidade',function(resultado){
+        preencherListaEspecialidade(resultado,"#lista_especialidades");
+        preencherListaEspecialidade(resultado,"#busca_lista_especialidades");
+    });
+
 });
 
 $("#btnSalvarMedico").click(function (event) {
@@ -47,7 +53,8 @@ $("#btnSalvarMedico").click(function (event) {
         'bairro': $("#bairro").val(),
         'cidade': $("#cidade").val(),
         'uf': $("#uf").val(),
-        'sexo': $("input[name='rd_sexo']:checked").val()
+        'sexo': $("input[name='rd_sexo']:checked").val(),
+        'especialidade_id': $("#lista_especialidades").val(),
     };
     $.ajax({
         type: "POST",
@@ -88,7 +95,8 @@ $("#btnBuscarMedico").click(function (event) {
     var busca_medico = {
         nome: $("#busca_nome").val(),
         cpf: $("#busca_cpf").cleanVal(),
-        crm:  $("#busca_crm").val()
+        crm:  $("#busca_crm").val(),
+        especialidade_id:  $("#busca_lista_especialidades").val()
 
     };
     var ultimaBusca = busca_medico;
@@ -107,8 +115,8 @@ $("#btnBuscarMedico").click(function (event) {
         },
         success: function (resultado) {
             var $table = $('#resultado_busca');
-            if (resultado) {
-                var medicos = resultado;
+            if (resultado.data) {
+                var medicos = resultado.data;
                 $table.bootstrapTable('destroy');
                 $table.bootstrapTable({data: medicos});
                 exibirResultadoPesquisa();
@@ -143,7 +151,8 @@ $("#btnAtualizarMedico").click(function (event) {
         'bairro': $("#editar_bairro").val(),
         'cidade': $("#editar_cidade").val(),
         'uf': $("#editar_uf").val(),
-        'sexo': $("input[name='editar_rdsexo']:checked").val()
+        'sexo': $("input[name='editar_rdsexo']:checked").val(),
+        'especialidade_id': $("#editar_lista_especialidades").val()
     };
     $.ajax({
         type: "PUT",
@@ -224,6 +233,26 @@ function carregarDadosTabelaUltimaBusca() {
             console.log(error);
         }
     });
+}
+
+function preencherListaEspecialidade(resultado,idCombo) {
+    var data = resultado.data;
+    if (data) {
+        data.sort(function (a, b) {
+            if (a.descricao < b.descricao) {
+                return -1;
+            }
+            if (a.descricao > b.descricao) {
+                return 1;
+            }
+            return 0;
+        });
+        $(idCombo).append('<option value="" selected>Selecione</option>');
+
+        for (var i = 0; i < data.length; i++) {
+            $(idCombo).append('<option value="' + data[i].id + '">' + data[i].descricao + '</option>');
+        }
+    }
 }
 
 

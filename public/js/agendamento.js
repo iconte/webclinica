@@ -30,9 +30,9 @@ $(function () {
     });
 
 
-    $.get('/api/medico',function(resultado){
-        carregarListaMedico(resultado,'#lista_medicos');
-    });
+    //$.get('/api/medico',function(resultado){
+    //    carregarListaMedico(resultado,'#lista_medicos');
+    //});
 
     $.get('/api/especialidade',function(resultado){
 
@@ -54,6 +54,9 @@ $(function () {
 
     $("#cpf").blur(buscarPacientePorCpf);
 });
+
+
+
 
 
 function carregarListaMedico(resultado,idCombo){
@@ -111,6 +114,31 @@ $("#data_agendamento").blur(function(event){
     var dt_selecionada = $("#data_agendamento").val();
     var medicoId = $("#lista_medicos").val();
     carregarHorariosDisponiveis(event,dt_selecionada,medicoId);
+});
+
+$("#lista_especialidades").change(function(event){
+    var esp_selecionada = $("#lista_especialidades").val();
+    if(esp_selecionada){
+        $.ajax({
+            type: "GET",
+            url: "/api/medico/especialidade/"+esp_selecionada,
+            context: this,
+            success: function (data) {
+                $("#lista_medicos").empty();
+                if(data){
+                    carregarListaMedico(data,'#lista_medicos');
+                }
+            }
+        });
+    }else{
+        $("#lista_medicos").empty();
+    }
+});
+
+$("#lista_medicos").change(function(event){
+    var dt_selecionada = $("#data_agendamento").val();
+    var medicoId = $("#lista_medicos").val();
+    carregarListaMedico(event,dt_selecionada,medicoId);
 });
 
 $("#btnBuscarAgendamento").click(function (event) {
