@@ -239,10 +239,13 @@
         }
 
         function actionFormatter(value) {
+
             return [
                 '<a class="update btn btn-primary" style="margin-right:10px;" href="javascript:" ><i class="fa fa-pencil"></i><span class="hidden-xs"> Editar</span></a>',
                 '<a class="remove btn btn-danger" href="javascript:" ><i class="fa fa-trash"></i><span class="hidden-xs"> Remover</span></a>'
             ].join('')
+
+
         }
 
         window.commonEvents = {

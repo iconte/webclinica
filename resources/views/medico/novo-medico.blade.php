@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-xs-12 col-lg-4">
                 <div class="form-group">
-                    <label>Especialidade</label>
+                    <label>Especialidade <span style="color:red">*</span></label>
                     <select class="form-control" id="lista_especialidades"></select>
                 </div>
             </div>
